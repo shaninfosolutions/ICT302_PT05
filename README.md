@@ -5,7 +5,7 @@ Install Apache Maven 3.8.8
 
 IDE
 ======================================================
-Eclipse, Intellij, Sprint tools and Visual Studio Code
+Eclipse, Intellij, Spring tools and Visual Studio Code
 
 Build and Install
 =====================================================
