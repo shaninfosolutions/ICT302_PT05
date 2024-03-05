@@ -24,7 +24,6 @@ import pt05.com.sg.service.impl.UserServiceImpl;
 @SpringBootApplication(scanBasePackages = {"pt05.com.sg"})
 @EnableAutoConfiguration
 @EntityScan("pt05.com.sg.data.entity")
-@EnableJpaRepositories(basePackages = {"pt05.com.sg.data.repository" })
 @ComponentScan("pt05.com.sg")
 public class DrenchMatePrjApplication implements CommandLineRunner {
 	
