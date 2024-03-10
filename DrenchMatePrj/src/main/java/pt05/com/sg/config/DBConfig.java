@@ -30,7 +30,7 @@ public class DBConfig {
 	private   String driverClassName;
 	
 	@Value("${spring.datasource.url}")
-	private   String url;
+	private   String dbUrl;
 	
 	@Value("${spring.datasource.username}")
 	private   String username;
@@ -45,8 +45,8 @@ public class DBConfig {
 		
 		DriverManagerDataSource dataSource=new DriverManagerDataSource();
 		dataSource.setDriverClassName(driverClassName);
-		dataSource.setUrl(url);
-		dataSource.setUsername(username);
+		dataSource.setUrl(EncryptDecrypt.decrypt(dbUrl));
+		dataSource.setUsername(EncryptDecrypt.decrypt(username));
 		dataSource.setPassword(EncryptDecrypt.decrypt(password));
 		
 		return dataSource;

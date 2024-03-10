@@ -32,6 +32,10 @@ public class Notification extends Base{
 	@JoinColumn(name="UserId")
 	private User user;
 	
+	@ManyToOne
+	@JoinColumn(name="FarmHouseId")
+	private FarmHouse farmHouse;
+	
 	@Column(name = "Message")
 	private String message;
 	
@@ -103,6 +107,16 @@ public class Notification extends Base{
 
 	public String getStatus() {
 		return status;
+	}
+	
+	
+
+	public FarmHouse getFarmHouse() {
+		return farmHouse;
+	}
+
+	public void setFarmHouse(FarmHouse farmHouse) {
+		this.farmHouse = farmHouse;
 	}
 
 	public void setStatus(String status) {

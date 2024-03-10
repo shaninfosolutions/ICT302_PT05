@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,10 @@ public class UserServiceImpl implements UserService{
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
 
+	
+	@Value("${notification.offset.days.to.notify}")
+	private  Long offsetDaysToNotify;
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -36,7 +41,8 @@ public class UserServiceImpl implements UserService{
 		return (List<User>) this.userRepository.findAll();
 	}
 	
-	public UserDto getUserbyUserId(Long userId) throws Exception {
+	@Override
+	public UserDto getUserbyUserId(Long userId) {
 		
 		Optional<User> userOptional=this.userRepository.findByUserId(userId);
 		  UserDto userDto=new UserDto();
@@ -129,6 +135,11 @@ public class UserServiceImpl implements UserService{
 						dbUserProfile.setUser(dbUser);
 						dbUser.setUserProfile(dbUserProfile);
 						this.userRepository.save(dbUser);
+						
+						//--Create the Notification Setting by default
+						
+						
+						
 						message="Thanks for registering";
 						responseMessage.put("status", "Success");
 						responseMessage.put("message",message);
@@ -213,6 +224,61 @@ public class UserServiceImpl implements UserService{
 		return responseMessage;
 		
 		
+	}
+
+	@Override
+	public UserDto getUserbyUserEmail(String email) {
+		Optional<User> userOptional=this.userRepository.findByEmail(email);
+		  UserDto userDto=new UserDto();
+		if(userOptional.isPresent()) {
+			User dbUser=userOptional.get();
+			//Mapping into the User DTO 
+		  
+		    userDto.setName(dbUser.getName());
+		    userDto.setEmail(dbUser.getEmail());
+		    userDto.setDisplayName(dbUser.getUserProfile().getDisplayName());
+		    userDto.setAvator(dbUser.getUserProfile().getAvator());
+		    userDto.setFacebookLink(dbUser.getUserProfile().getFacebookLink());
+		    userDto.setTwitterLink(dbUser.getUserProfile().getTwitterLink());
+		    userDto.setPhoneNo(dbUser.getUserProfile().getPhoneNo());
+		    userDto.setRemarks(dbUser.getUserProfile().getRemarks());
+		    userDto.setMessage("User Found in System");
+		    userDto.setStatus("Success");
+		}else {
+			// userDto.setMessage(userId+" Not Found in System");
+			// userDto.setStatus("Failed");
+			 userDto=null;
+			// throw new Exception("User not found in System!!!!");
+		}
+
+		return userDto;
+	}
+	
+	public Map<String,String>  deleteUserById(Long userId) {
+		Optional<User> userOptional=this.userRepository.findByUserId(userId);
+		String message="";
+		Map<String,String> responseMessage=new HashMap<String,String>();
+		try {
+		if(userOptional.isPresent()) {
+			
+			User dbUser=userOptional.get();
+			log.info("User Found to Delete: Email:"+ dbUser.getEmail()+", Name:"+dbUser.getName());
+			this.userRepository.delete(dbUser);
+			message="Deleted User Successfully";
+			responseMessage.put("status", "Success");
+			responseMessage.put("message",message);
+		}else {
+			message="User not exist to delete";
+			responseMessage.put("status", "Failed");
+			responseMessage.put("message",message);
+		}
+		}catch(Exception e) {
+			responseMessage.put("status", "Failed");
+			message=e.getMessage();
+			responseMessage.put("message",e.getMessage());
+		}
+		
+		return responseMessage;
 	}
 
 }

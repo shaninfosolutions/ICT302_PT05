@@ -129,6 +129,14 @@ public class FarmHouse extends Base{
 		this.remarks = remarks;
 	}
 
+	public List<Animal> getAnimalList() {
+		return animalList;
+	}
+
+	public void setAnimalList(List<Animal> animalList) {
+		this.animalList = animalList;
+	}
+
 	public long getVerNo() {
 		return verNo;
 	}
