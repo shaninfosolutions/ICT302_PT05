@@ -1,0 +1,29 @@
+<div class="">
+    <div class="">  
+        <div >
+            <form>
+                <div class="inputlabel">User Profile</div>
+                <input type="text" name="userId"  [(ngModel)]="UserDto.userId"  placeholder="userId" required="">
+                <input type="text" name="name"  [(ngModel)]="UserDto.name"  placeholder="name" required="">
+                <input type="text" name="displayname"  [(ngModel)]="UserDto.displayName"  placeholder="displayname" required="">
+                <input type="text" name="email"  [(ngModel)]="UserDto.email"  placeholder="email" required="">
+                <input type="text" name="phoneno"  [(ngModel)]="UserDto.phoneNo"  placeholder="phoneno" required="">
+                <input type="text" name="facebookLink"  [(ngModel)]="UserDto.facebookLink"  placeholder="facebookLink" required="">
+                <input type="text" name="twitterLink"  [(ngModel)]="UserDto.twitterLink"  placeholder="twitterLink" required="">
+                <input type="text" name="remarks"  [(ngModel)]="UserDto.remarks"  placeholder="remarks" required="">
+               
+                <div class="inputlabel">Reset Password</div>
+                <input type="password" name="pswd"  [(ngModel)]="UserDto.password" placeholder="password" required="">
+                <input type="retypepassword" name="pswd"  placeholder="retypepassword" required="">
+                <div class="inputlabel">Notification Setting</div>
+                <input type="noofdays" name="noofdays"  placeholder="noofdays" required="">
+                <input type="emailnoti" name="emailnoti"  [(ngModel)]="UserDto.emailnoti"  placeholder="email" required="">
+                <!--<input type="radio" name="toreceivenotification"  placeholder="toreceivenotification" required="">
+               -->
+               <!--<input type="emailnoti" name="emailnoti" placeholder="emailnoti" required="">
+               -->
+                <button (click)="updateUser(UserDto)">Update</button>  
+            </form>
+        </div>
+        </div>
+</div>
