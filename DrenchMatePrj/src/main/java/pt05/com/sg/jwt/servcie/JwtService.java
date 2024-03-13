@@ -58,6 +58,10 @@ public class JwtService {
         Map<String,Object> claims=new HashMap<>();
         return createToken(claims,userName);
     }
+    
+    public Long tokenExpired() {
+    	return new Date(System.currentTimeMillis()+1000*60*60*30).getTime();
+    }
 
     private String createToken(Map<String, Object> claims, String userName) {
         return Jwts.builder()

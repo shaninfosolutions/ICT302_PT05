@@ -28,9 +28,28 @@ public class NotificationJdbcImpl implements NotificationJdbc {
 	        "AND TO_NUMBER(TO_CHAR(NOTE.CREATEDDATE,'YYYYMMDD')) <= TO_NUMBER(TO_CHAR(SYSDATE - ?,'YYYYMMDD')) " +
 	        "AND TO_NUMBER(TO_CHAR(NOTE.CREATEDDATE,'YYYYMMDD')) >= TO_NUMBER(TO_CHAR(SYSDATE - NOTISETTING.NOOFDAYS,'YYYYMMDD')) " +
 	        "AND NOT EXISTS (SELECT 1 FROM TB_NOTIFICATION NOTI " +
-	        "                WHERE NOTI.USERID = U.USERID AND NOTI.FARMHOUSEID= NOTE.FARMHOUSEID " +
+	        "                WHERE NOTI.USERID = U.USERID AND NOTI.FARMHOUSEID= NOTE.FARMHOUSEID AND NOTI.NOTITYPE='USER_NOTE' " +
 	        "                AND TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) <= TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD'))) " +
 	        "GROUP BY U.USERID, NOTE.FARMHOUSEID,NOTISETTING.EMAIL,U.NAME ",
+	        new Object[]{cutOfDaysOne},
+	        new BeanPropertyRowMapper<>(EligibleUsersToNotifyDto.class)
+	    );
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<EligibleUsersToNotifyDto> findEligibleTaskNotify(Long cutOfDaysOne) {
+	    return jdbcTemplate.query(
+	        "SELECT U.USERID,U.NAME, TASK.FARMHOUSEID,NOTISETTING.EMAIL\r\n"
+	        + "FROM TB_USER U, TB_TASK TASK, TB_NOTIFICATION_SETTING NOTISETTING  \r\n"
+	        + "WHERE TASK.USERID = U.USERID AND NOTISETTING.USERID=U.USERID AND NOTISETTING.TORECEIVENOTIFICATION='Y'  \r\n"
+	        + "AND TO_NUMBER(TO_CHAR(TASK.StartDate,'YYYYMMDD')) <= TO_NUMBER(TO_CHAR(SYSDATE - ?,'YYYYMMDD'))  \r\n"
+	        + "AND TO_NUMBER(TO_CHAR(TASK.StartDate,'YYYYMMDD')) >= TO_NUMBER(TO_CHAR(SYSDATE - NOTISETTING.NOOFDAYS,'YYYYMMDD'))  \r\n"
+	        + "AND NOT EXISTS (SELECT 1 FROM TB_NOTIFICATION NOTI  \r\n"
+	        + "WHERE NOTI.USERID = U.USERID AND NOTI.FARMHOUSEID= TASK.FARMHOUSEID  \r\n"
+	        + "AND NOTI.NOTITYPE='USER_TASK'\r\n"
+	        + "AND TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) <= TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')))  \r\n"
+	        + "GROUP BY U.USERID, TASK.FARMHOUSEID,NOTISETTING.EMAIL,U.NAME,TASK.TaskId ",
 	        new Object[]{cutOfDaysOne},
 	        new BeanPropertyRowMapper<>(EligibleUsersToNotifyDto.class)
 	    );

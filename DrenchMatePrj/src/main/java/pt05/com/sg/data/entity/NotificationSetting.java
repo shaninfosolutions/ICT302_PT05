@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -29,8 +31,9 @@ public class NotificationSetting extends Base{
 	@Column(name = "NotiSettingId")
 	private long notiSettingId;
 	
-	@ManyToOne
-	@JoinColumn(name="UserId")
+	@OneToOne
+	@MapsId
+	@JoinColumn(name = "UserId")
 	private User user;
 	
 	@Column(name = "ToReceiveNotification")

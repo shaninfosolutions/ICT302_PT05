@@ -34,17 +34,6 @@ public class ScheduledTasks {
 	
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-
-	@Autowired
-	private EmailServiceImpl emailServiceImpl ;
-	
-	@Autowired
-	private NotificationRepository notificationRepository;
-	
-	@Autowired
-	private NotificationJdbc notificationJdbc;
-	
-
 	@Autowired
 	private NotificationServiceImpl notificationServiceImpl;
 	
@@ -53,6 +42,29 @@ public class ScheduledTasks {
 	
 	@Value("${notification.offset.days.to.notify}")
 	private  Long offsetDaysToNotify;
+	
+	//@Scheduled(cron = "${user.note.cron.expression}",scheduler = "mySchedulerUserNote")
+    public void performUserNoteTask() {
+        try {
+        	log.info("User Note Notification performed at {Entry}", LocalDateTime.now());
+        	this.notificationServiceImpl.processNotification();
+        	log.info("User Note Notification performed at {End}", LocalDateTime.now());
+        } catch (Exception e) {
+        	log.error("Error during task execution", e);
+        }
+    }
+	
+	//@Scheduled(cron = "${task.cron.expression}",scheduler = "mySchedulerTask")
+    public void performTask() {
+        try {
+        	log.info("Task performed at {Entry}", LocalDateTime.now());
+        	this.notificationServiceImpl.processTaskNotification();
+        	log.info("Task performed at {End}", LocalDateTime.now());
+            // Perform task logic
+        } catch (Exception e) {
+        	log.error("Error during task execution", e);
+        }
+    }
 	
 	
 	/*
@@ -102,24 +114,5 @@ public class ScheduledTasks {
     
 	}*/
 	
-	@Scheduled(cron = "${user.note.cron.expression}",scheduler = "mySchedulerUserNote")
-    public void performUserNoteTask() {
-        try {
-        	log.info("User Note Notification performed at {Entry}", LocalDateTime.now());
-        	this.notificationServiceImpl.processNotification();
-        	log.info("User Note Notification performed at {End}", LocalDateTime.now());
-        } catch (Exception e) {
-        	log.error("Error during task execution", e);
-        }
-    }
-	/*
-	@Scheduled(cron = "${task.cron.expression}",scheduler = "mySchedulerTask")
-    public void performTask() {
-        try {
-        	log.info("Task performed at {}", LocalDateTime.now());
-            // Perform task logic
-        } catch (Exception e) {
-        	log.error("Error during task execution", e);
-        }
-    }*/
+	
 }

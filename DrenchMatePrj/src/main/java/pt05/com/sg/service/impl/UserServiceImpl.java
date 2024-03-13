@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import pt05.com.sg.data.dto.SignUpUserDto;
 import pt05.com.sg.data.dto.UserDto;
 import pt05.com.sg.data.entity.User;
+import pt05.com.sg.data.entity.NotificationSetting;
 import pt05.com.sg.data.entity.UserProfile;
+import pt05.com.sg.data.repository.NotificationSettingRepository;
 import pt05.com.sg.data.repository.UserRepository;
 import pt05.com.sg.service.UserService;
 import pt05.com.sg.validation.CustomerValidation;
@@ -30,11 +33,20 @@ public class UserServiceImpl implements UserService{
 	@Value("${notification.offset.days.to.notify}")
 	private  Long offsetDaysToNotify;
 	
+	
+	private final static char RECEIVE_NOTIFICDATION_YES='Y';
+	
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
+	private NotificationSettingRepository notificationSettingRepository;
+	
+	@Autowired
     private BCryptPasswordEncoder passwordEncoder ;
+	
+	@Autowired
+	private EmailServiceImpl emailServiceImpl ;
 	
 	@Override
 	public List<User> getUserList() {
@@ -49,7 +61,7 @@ public class UserServiceImpl implements UserService{
 		if(userOptional.isPresent()) {
 			User dbUser=userOptional.get();
 			//Mapping into the User DTO 
-		  
+			userDto.setUserId(userId);
 		    userDto.setName(dbUser.getName());
 		    userDto.setEmail(dbUser.getEmail());
 		    userDto.setDisplayName(dbUser.getUserProfile().getDisplayName());
@@ -101,7 +113,7 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
-	public Map<String,String> addNewUser(User user) {
+	public Map<String,String> addNewUser(SignUpUserDto user) {
 		Map<String,String> responseMessage=new HashMap<String,String>();
 		String message="";
 		try {
@@ -119,28 +131,53 @@ public class UserServiceImpl implements UserService{
 					Optional<User> userOptional =this.userRepository.findByEmail(user.getEmail());
 					if(!userOptional.isPresent()) {
 						//should have the validation
-						User dbUser=new User(user);
+						User dbUser=new User();
 						log.info("Creating:"+user.getEmail());
 						//dbUser=new User(user);
 						
+						dbUser.setName(user.getUserName());
+						dbUser.setEmail(user.getEmail());
 						String password=passwordEncoder.encode(user.getPassword());
 						dbUser.setPassword(password);
+						dbUser.setRoles("ROLE_USER");
 						
 						dbUser.setCreatedDate(new Date());
-						dbUser.setCreatedBy(user.getCreatedBy()==null?user.getName():user.getCreatedBy());
+						dbUser.setCreatedBy(user.getUserName());
 						dbUser.setLastUpdatedDate(new Date());
-						dbUser.setLastUpdatedBy(user.getLastUpdatedBy()==null?user.getName():user.getLastUpdatedBy());
+						dbUser.setLastUpdatedBy(user.getUserName());
 						
-						UserProfile dbUserProfile=new UserProfile(user.getUserProfile());
+						UserProfile dbUserProfile=new UserProfile();
+						dbUserProfile.setDisplayName(user.getUserName());
+						dbUserProfile.setCreatedDate(new Date());
+						dbUserProfile.setCreatedBy(user.getUserName());
+						dbUserProfile.setLastUpdatedDate(new Date());
+						dbUserProfile.setLastUpdatedBy(user.getUserName());
 						dbUserProfile.setUser(dbUser);
 						dbUser.setUserProfile(dbUserProfile);
+						
 						this.userRepository.save(dbUser);
 						
 						//--Create the Notification Setting by default
+						NotificationSetting notisetting=new NotificationSetting();
+						notisetting.setUser(dbUser);
+						notisetting.setNoOfDays(offsetDaysToNotify);
+						notisetting.setToReceiveNotification(RECEIVE_NOTIFICDATION_YES);
+						notisetting.setEmail(user.getEmail());
+						
+						notisetting.setCreatedDate(new Date());
+						notisetting.setCreatedBy(user.getUserName());
+						notisetting.setLastUpdatedDate(new Date());
+						notisetting.setLastUpdatedBy(user.getUserName());
+						
+						this.notificationSettingRepository.save(notisetting);
+						
+						message="Dear "+user.getUserName()+"\nThanks for registering.";
+					
+	        			String subject="Drench Mate - Registration Notification as of "+new Date();
+	        			//To send the email notification
+	        			this.emailServiceImpl.sendEmail(user.getEmail(), subject, message);
 						
 						
-						
-						message="Thanks for registering";
 						responseMessage.put("status", "Success");
 						responseMessage.put("message",message);
 					}else {
@@ -163,7 +200,7 @@ public class UserServiceImpl implements UserService{
 	
 
 	@Override
-	public Map<String,String> updateUserByUserId(User user,Long userId) {
+	public Map<String,String> updateUserByUserId(UserDto user,Long userId) {
 		Map<String,String> responseMessage=new HashMap<String,String>();
 		String message="";
 		try {
@@ -182,21 +219,25 @@ public class UserServiceImpl implements UserService{
 					User dbUser=userOptional.get();
 					
 					dbUser.setName(user.getName());
-					String password=passwordEncoder.encode(user.getPassword());
-					dbUser.setPassword(password);
-					
+					if(user.getPassword()!=null && !user.getPassword().isEmpty()) {
+						String password=passwordEncoder.encode(user.getPassword());
+						dbUser.setPassword(password);
+					}else {
+						//no change in password
+					}
 					dbUser.setLastUpdatedDate(new Date());
-					dbUser.setLastUpdatedBy(user.getLastUpdatedBy()==null?user.getName():user.getLastUpdatedBy());
+					dbUser.setLastUpdatedBy(user.getName());
 					
 					UserProfile dbUserProfile=dbUser.getUserProfile();
 					
-					dbUserProfile.setDisplayName(user.getUserProfile().getDisplayName());
-					dbUserProfile.setAvator(user.getUserProfile().getAvator());
-					dbUserProfile.setFacebookLink(user.getUserProfile().getFacebookLink());
-					dbUserProfile.setTwitterLink(user.getUserProfile().getTwitterLink());
-					dbUserProfile.setPhoneNo(user.getUserProfile().getPhoneNo());
+					dbUserProfile.setDisplayName(user.getDisplayName());
+					dbUserProfile.setAvator(user.getAvator());
+					dbUserProfile.setFacebookLink(user.getFacebookLink());
+					dbUserProfile.setTwitterLink(user.getTwitterLink());
+					dbUserProfile.setPhoneNo(user.getPhoneNo());
+					dbUserProfile.setRemarks(user.getRemarks());
 					dbUserProfile.setLastUpdatedDate(new Date());
-					dbUserProfile.setLastUpdatedBy(user.getLastUpdatedBy()==null?user.getName():user.getLastUpdatedBy());
+					dbUserProfile.setLastUpdatedBy(user.getName());
 					
 					dbUserProfile.setUser(dbUser);
 					
@@ -233,7 +274,7 @@ public class UserServiceImpl implements UserService{
 		if(userOptional.isPresent()) {
 			User dbUser=userOptional.get();
 			//Mapping into the User DTO 
-		  
+			userDto.setUserId(dbUser.getUserId());
 		    userDto.setName(dbUser.getName());
 		    userDto.setEmail(dbUser.getEmail());
 		    userDto.setDisplayName(dbUser.getUserProfile().getDisplayName());
@@ -242,6 +283,7 @@ public class UserServiceImpl implements UserService{
 		    userDto.setTwitterLink(dbUser.getUserProfile().getTwitterLink());
 		    userDto.setPhoneNo(dbUser.getUserProfile().getPhoneNo());
 		    userDto.setRemarks(dbUser.getUserProfile().getRemarks());
+		    userDto.setNoofdaysToNoti(dbUser.getNotificationSetting().getNoOfDays());
 		    userDto.setMessage("User Found in System");
 		    userDto.setStatus("Success");
 		}else {

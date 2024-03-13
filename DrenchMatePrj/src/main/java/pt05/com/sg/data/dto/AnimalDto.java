@@ -18,6 +18,10 @@ public class AnimalDto {
 	
 	private String status;
 	
+	private Long farmHouseId;
+	
+	private String farmHouseName;
+	
 	private String createdBy;
 	
 	private String lastUpdatedBy;
@@ -106,6 +110,24 @@ public class AnimalDto {
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+
+	public Long getFarmHouseId() {
+		return farmHouseId;
+	}
+
+	public void setFarmHouseId(Long farmHouseId) {
+		this.farmHouseId = farmHouseId;
+	}
+
+	public String getFarmHouseName() {
+		return farmHouseName;
+	}
+
+	public void setFarmHouseName(String farmHouseName) {
+		this.farmHouseName = farmHouseName;
+	}
+
+	
 	
 	
 

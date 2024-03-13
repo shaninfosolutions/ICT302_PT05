@@ -2,9 +2,13 @@ package pt05.com.sg.data.dto;
 
 public class UserDto {
 	
+	private Long userId;
+	
 	private String name;
 	
 	private String email;
+	
+	private String password;
 	
 	private String displayName;
 	
@@ -17,6 +21,8 @@ public class UserDto {
 	private String twitterLink;
 	
 	private String Remarks;
+	
+	private Long noofdaysToNoti;
 	
 	private String message;
 	
@@ -106,6 +112,32 @@ public class UserDto {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Long getNoofdaysToNoti() {
+		return noofdaysToNoti;
+	}
+
+	public void setNoofdaysToNoti(Long noofdaysToNoti) {
+		this.noofdaysToNoti = noofdaysToNoti;
+	}
+	
+	
 	
 	
 

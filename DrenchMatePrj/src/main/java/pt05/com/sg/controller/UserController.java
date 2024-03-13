@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pt05.com.sg.DrenchMatePrjApplication;
+import pt05.com.sg.data.dto.SignUpUserDto;
 import pt05.com.sg.data.dto.UserDto;
 import pt05.com.sg.data.entity.User;
 import pt05.com.sg.dto.AuthRequest;
@@ -59,8 +61,9 @@ public class UserController {
 
 	@PostMapping("/register")
 	@ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<Map<String,String>> addNewUser(@RequestHeader Map<String, String> headers,@RequestBody User user) {
+    public ResponseEntity<Map<String,String>> addNewUser(@RequestBody SignUpUserDto user) {
 		try {
+			log.info("User Registration Begin "+ user.getUserName());
 			Map<String,String> responseMap=this.userServiceImpl.addNewUser(user);
 			return ResponseEntity.status(HttpStatus.OK).body(responseMap);
 		 
@@ -129,10 +132,9 @@ public class UserController {
 				}
 		}
 	
-	@PostMapping("dm/user/{userId}")
+	@PostMapping("dm/user/update/{userId}")
 	public ResponseEntity<Map<String,String>> updateUserByUserId(
-			@RequestHeader Map<String, String> headers,
-			@RequestBody User user,
+			@RequestBody UserDto user,
 			@PathVariable("userId") Long userId) {
 		
 		try {
@@ -172,14 +174,90 @@ public class UserController {
 	
 	
 	@PostMapping("/authenticate")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<Map<String,String>> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+		log.info("User Login Authenticate "+ authRequest.getEmail());
+		Map<String,String> responseMap=new HashMap<String,String>();
+		try {
+		
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getEmail());
-        } else {
-            throw new UsernameNotFoundException("invalid user request !");
-        }
+        	
+        	UserDto dto=this.userServiceImpl.getUserbyUserEmail(authRequest.getEmail());
+        	
+        	responseMap.put("token",  jwtService.generateToken(authRequest.getEmail()));
+        	responseMap.put("grant_type", "Bearer");
+        	responseMap.put("expired",String.valueOf(jwtService.tokenExpired()));
+        	responseMap.put("message", "User Authenticate Successfully");
+        	responseMap.put("status", "Success");
+            //return jwtService.generateToken(authRequest.getEmail());
+        	return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+	        } else {
+	        	responseMap.put("message", "Invalid user request, User not found");
+	        	responseMap.put("status", "Failed");
+	            //throw new UsernameNotFoundException("invalid user request !");
+	        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+	           
+	        }
+    	
+		}catch(Exception e) {
+			responseMap.put("status", "Failed");
+			responseMap.put("message", e.getMessage());
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMap);
+		}
+        
+      //  return null;
 
+    }
+	
+	
+	@PostMapping("/login")
+    public ResponseEntity<Map<String,String>> login(@RequestBody AuthRequest authRequest) {
+		log.info("User Login Authenticate "+ authRequest.getEmail());
+		Map<String,String> responseMap=new HashMap<String,String>();
+		try {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
+        if (authentication.isAuthenticated()) {
+        	log.info("User Login Authenticate Success:"+ authRequest.getEmail());
+        	UserDto dto=this.userServiceImpl.getUserbyUserEmail(authRequest.getEmail());
+        	
+        	responseMap.put("token",  jwtService.generateToken(authRequest.getEmail()));
+        	responseMap.put("grant_type", "Bearer");
+        	responseMap.put("expired",String.valueOf(jwtService.tokenExpired()));
+        	responseMap.put("userid", String.valueOf(dto.getUserId()));
+        	responseMap.put("name", dto.getName());
+        	//responseMap.put("email", dto.getEmail());
+        	responseMap.put("displayname", dto.getDisplayName());
+        	responseMap.put("avator", dto.getAvator());
+        	responseMap.put("message", "User Authenticate Successfully");
+        	responseMap.put("status", "Success");
+            //return jwtService.generateToken(authRequest.getEmail());
+        	return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+	        } else {
+	        	log.info("User Login Authenticate Failed "+ authRequest.getEmail());
+	        	responseMap.put("message", "Invalid user request, User not found");
+	        	responseMap.put("status", "Failed");
+	           // throw new UsernameNotFoundException("invalid user request !");
+	            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+	           
+	        }
+    	
+		}catch(AuthenticationException e) {
+			
+			log.info("User Login Authenticate Failed "+ authRequest.getEmail());
+        	responseMap.put("message", "Invalid user request, User not found");
+        	responseMap.put("status", "Failed");
+           // throw new UsernameNotFoundException("invalid user request !");
+            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+			
+		}
+		
+		catch(Exception e) {
+			responseMap.put("status", "Failed");
+			responseMap.put("message", e.getMessage());
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMap);
+		}
+        
+      //  return null;
 
     }
 

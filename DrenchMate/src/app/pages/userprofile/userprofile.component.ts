@@ -19,6 +19,7 @@ export class UserprofileComponent {
     "facebookLink":"",
     "twitterLink":"",
     "remarks":"",
+    "noofdays":"",
     "message":"",
     "status":""
   }
@@ -40,6 +41,7 @@ export class UserprofileComponent {
       this.UserDto.facebookLink=res.facebookLink;
       this.UserDto.twitterLink=res.twitterLink;
       this.UserDto.remarks=res.remarks;
+      this.UserDto.noofdaysToNoti=res.noofdaysToNoti;
     })
 
   }
@@ -48,12 +50,12 @@ export class UserprofileComponent {
    // debugger;
     this.http.post("http://localhost:8080/api/v1/dm/user/update/"+user.userId,user).subscribe((res:any)=>{
      try {
-      debugger;
+     // debugger;
       if(res.status=='Success'){
         alert('Updated success' + res.message+" " + res.status) 
         this.router.navigateByUrl('dashboard')
       }else {
-        debugger
+      //  debugger
         alert('Updated failed ' + res.message+" " + res.status);
       }
      } catch (error) {

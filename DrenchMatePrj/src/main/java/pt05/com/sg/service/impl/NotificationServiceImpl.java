@@ -35,9 +35,6 @@ public class NotificationServiceImpl implements NotificationService{
 	private NotificationRepository notificationRepository;
 	
 	@Autowired
-	private NoteRepository noteRepository;
-	
-	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
@@ -66,6 +63,71 @@ public class NotificationServiceImpl implements NotificationService{
 		return this.notificationRepository.save(notification);
 	}
 	
+	public void processTaskNotification() {
+		
+		try {
+        	log.info("Notification Service Process Begin:");
+        	//Long bestScore=this.notificationJdbcImpl.findNotiRuleScoreCard();
+        	List<EligibleUsersToNotifyDto> list=this.notificationJdbcImpl.findEligibleTaskNotify(
+        																	offsetOneDay);
+        	list.forEach(u->System.out.println(u.getUserId()+":"+u.getFarmHouseId()));
+        	if(list.size()>0) {
+        		
+        		for(EligibleUsersToNotifyDto dto:list) {
+        			
+        			
+        		log.info("Trigger Task Notification Begin:"+dto.getUserId()+":FarmHouseid:"+dto.getFarmHouseId());
+        	
+        		
+        			String message="Dear "+dto.getName()+"\n"
+        					+ "This is alert notification to inform you have upcoming Task Schedule.\n"
+        					+ "Thanks. "
+        					+ "(System auto generate, no reply required)";
+        			String subject="Drench Mate - Notification as of "+new Date();
+        			
+        			/*Trigger point to Send Email Notification*/
+        			this.emailServiceImpl.sendEmail(dto.getEmail(), subject, message);
+        			
+        			User u=this.userRepository.findByUserId(dto.getUserId()).get();
+        			
+        			Optional<FarmHouse> optionalFarmHouse = this.farmHouseRepository.findByFarmHouseId(dto.getFarmHouseId());
+
+        			Notification notification=new Notification();
+        			notification.setUser(u);
+        			notification.setMessage(message);
+        			notification.setStatus("OPEN");
+        			notification.setNotiType("USER_TASK");
+        			notification.setRemarks("System Auto Generate");
+        			
+        			if (optionalFarmHouse.isPresent()) {
+        			    FarmHouse farmhouse = optionalFarmHouse.get();
+        			    // Use the farmhouse object
+        			    notification.setFarmHouse(farmhouse);
+        			} else {
+        			    //throw Exception();
+        			}
+        			notification.setDateOfNotification(new Date());
+        			notification.setCreatedBy(dto.getName());
+        			notification.setCreatedDate(new Date());
+        			notification.setLastUpdatedBy(dto.getName());
+        			notification.setLastUpdatedDate(new Date());
+        			
+        			this.notificationRepository.save(notification);
+        			
+        			log.info("Trigger Notification End:"+dto.getName());
+        		
+        		}
+        	}else {
+        		log.info("There is no User found to notify");
+        	}
+        	
+        	log.info("Notification Service Process End:");
+        	
+        } catch (Exception e) {
+        	log.error("Error during Notificaiotn Processing", e);
+        }
+		
+	}
 	
 	public void processNotification() {
 		

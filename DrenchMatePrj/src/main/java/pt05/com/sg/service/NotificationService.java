@@ -11,5 +11,7 @@ public interface NotificationService {
 	public Notification addOrUpdate(Notification notification);
 	
 	public void processNotification();
+	
+	public void processTaskNotification();
 
 }

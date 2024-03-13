@@ -6,6 +6,8 @@ import pt05.com.sg.data.dto.NotiRuleScoreCard;
 public interface NotificationJdbc {
 	
 	public List<EligibleUsersToNotifyDto> findEligibleUsersToNotify(Long cutOfDaysOne) ;
+	
+	public List<EligibleUsersToNotifyDto> findEligibleTaskNotify(Long cutOfDaysOne);
 	    
 	public Long  findUserNotiScoreCard(Long cutOfDaysOne,
 			Long userId,

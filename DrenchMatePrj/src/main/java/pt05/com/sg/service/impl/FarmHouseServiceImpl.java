@@ -23,6 +23,7 @@ import pt05.com.sg.data.repository.FarmHouseRepository;
 import pt05.com.sg.data.repository.UserRepository;
 import pt05.com.sg.service.FarmHouseService;
 import pt05.com.sg.util.FirmHouseHelper;
+import pt05.com.sg.util.UserHelper;
 
 @Service
 public class FarmHouseServiceImpl implements FarmHouseService{
@@ -36,8 +37,27 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	public List<FarmHouse> getList() {
-		return (List<FarmHouse>) this.farmHouseRepository.findAll();
+	public Map<String,List<FarmHouseDto>> getList() {
+		Map<String,List<FarmHouseDto>> responseMessage=new HashMap<String,List<FarmHouseDto>>();
+		
+		List<FarmHouseDto> dtolist=new ArrayList<>();
+		List<FarmHouse> list=(List<FarmHouse>) this.farmHouseRepository.findAll();
+		
+		if(list!=null && list.size()>0) {
+			for(FarmHouse farmhouse:list) {
+				FarmHouseDto dto=FirmHouseHelper.mapFarmHouseDto(farmhouse);
+				dtolist.add(dto);
+				responseMessage.put("data", dtolist);
+			}
+		}
+		else {
+			responseMessage.put("data", null);
+			
+		}
+		
+		//return (List<FarmHouse>) this.farmHouseRepository.findAll();
+		
+		return responseMessage;
 	}
 	
 	public Map<String,String> addOrUpdate(FarmHouseDto farmHouse) {
@@ -58,8 +78,9 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 			farmHouseDb.setCreatedBy(farmHouse.getCreatedBy());
 			farmHouseDb.setLastUpdatedBy(farmHouse.getLastUpdatedBy());
 			
-			farmHouseDb= this.farmHouseRepository.save(farmHouseDb);
-			if(farmHouseDb!=null && farmHouseDb.getFarmHouseId()>0) {
+			FarmHouse saveFarmHouse= this.farmHouseRepository.save(farmHouseDb);
+			
+			if(saveFarmHouse!=null && saveFarmHouse.getFarmHouseId()>0) {
 				message="Firmhouse hased been Added/Updated Successfully";
 				responseMessage.put("status", "Success");
 				responseMessage.put("message",message);

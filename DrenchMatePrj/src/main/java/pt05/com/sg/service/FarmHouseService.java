@@ -8,7 +8,7 @@ import pt05.com.sg.data.entity.FarmHouse;
 
 public interface FarmHouseService {
 	
-	public List<FarmHouse> getList() ;
+	public Map<String,List<FarmHouseDto>> getList() ;
 	
 	public Map<String,String> addOrUpdate(FarmHouseDto farmHouse);
 	

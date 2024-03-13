@@ -38,7 +38,7 @@ public class FarmHouseController {
     private FarmHouseServiceImpl farmHouseServiceImpl;
 	
 	@GetMapping("/dm/farmhouses")
-	public List<FarmHouse> findAllFarmHouses() {
+	public Map<String,List<FarmHouseDto>> findAllFarmHouses() {
     	 return this.farmHouseServiceImpl.getList();
 	}
 	
@@ -60,7 +60,7 @@ public class FarmHouseController {
 	}
 	
 	
-	@GetMapping("/dm/farmhouse/userid")
+	@GetMapping("/dm/farmhouses/userid")
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<FarmHouseDto> findFarmHouseByUserId(@RequestParam("userId") Long userId){
 		log.info("getfarmhouseId by User ID :"+ userId);

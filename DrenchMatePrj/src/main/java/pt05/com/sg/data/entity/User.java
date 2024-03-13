@@ -54,7 +54,10 @@ public class User extends Base {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FarmHouse> farmHouseList=new ArrayList<>();
 	
-	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private NotificationSetting notificationSetting;
+
+
 	@Version
 	@Column(name = "VerNo")
 	private long verNo;
@@ -200,7 +203,15 @@ public class User extends Base {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 	
-	
+	public NotificationSetting getNotificationSetting() {
+		return notificationSetting;
+	}
+
+	public void setNotificationSetting(NotificationSetting notificationSetting) {
+		this.notificationSetting = notificationSetting;
+	}
+
+
 
 	@Override
 	public String toString() {
