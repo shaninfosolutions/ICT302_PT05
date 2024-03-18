@@ -1,0 +1,117 @@
+﻿<div class="container">
+    <h5>User Profile</h5>
+    <div class="card-body">
+
+            <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Name</label>
+                        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                            <div *ngIf="f.name.errors.required">Name is required</div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col">
+                        <label class="form-label">Email</label>
+                        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Display Name</label>
+                        <input type="text" formControlName="displayName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.displayName.errors }" />
+                        <div *ngIf="submitted && f.displayName.errors" class="invalid-feedback">
+                            <div *ngIf="f.displayName.errors.required">DisplayName is required</div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col">
+                        <label class="form-label">Phone No</label>
+                        <input type="text" formControlName="phoneNo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phoneNo.errors }" />
+                        <div *ngIf="submitted && f.phoneNo.errors" class="invalid-feedback">
+                            <div *ngIf="f.phoneNo.errors.required">PhoneNo is required</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Facebook Link</label>
+                        <input type="text" formControlName="facebookLink" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.facebookLink.errors }" />
+                        <div *ngIf="submitted && f.facebookLink.errors" class="invalid-feedback">
+                            <div *ngIf="f.facebookLink.errors.required">FacebookLink is required</div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col">
+                        <label class="form-label">Twitter Link</label>
+                        <input type="text" formControlName="twitterLink" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.twitterLink.errors }" />
+                        <div *ngIf="submitted && f.twitterLink.errors" class="invalid-feedback">
+                            <div *ngIf="f.twitterLink.errors.required">Twitter Link is required</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">
+                            Reset Password (Leave blank to keep the same password)
+                            <em *ngIf="userId">(Leave blank to keep the same password)</em>
+                        </label>
+                        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col">
+                        
+                    </div>
+                    
+                </div>
+                <h5>Notification Setting</h5>
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Eamil to Notify</label>
+                        <input type="text" formControlName="emailToNotify" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.emailToNotify.errors }" />
+                        <div *ngIf="submitted && f.emailToNotify.errors" class="invalid-feedback">
+                            <div *ngIf="f.emailToNotify.errors.required">Email to Notify is required</div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col">
+                        <label class="form-label">Number of Days To Notify</label>
+                        <input type="text" formControlName="noofdaysToNoti" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.noofdaysToNoti.errors }" />
+                        <div *ngIf="submitted && f.noofdaysToNoti.errors" class="invalid-feedback">
+                            <div *ngIf="f.noofdaysToNoti.errors.required">Number of Days to Notify is required</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col">
+                        <label class="form-label">Remarks</label>
+                        <input type="text" formControlName="remarks" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }" />
+                        <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
+                            <div *ngIf="f.remarks.errors.required">Email to Notify is required</div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+
+                <div class="mb-3">
+                    <button [disabled]="submitting" class="btn btn-primary">
+                        <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+                        Save
+                    </button>
+                    <a routerLink="/" class="btn btn-link">Cancel</a>
+                </div>
+            </form>
+            <div *ngIf="loading" class="text-center m-5">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </div>
+
+        </div>
+</div>

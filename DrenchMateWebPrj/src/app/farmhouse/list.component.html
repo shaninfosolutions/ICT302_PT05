@@ -1,0 +1,38 @@
+﻿<h1>Farm House</h1>
+<a routerLink="add" class="btn btn-sm btn-success mb-2">Add Farm House</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 20%">Farm House ID</th>
+            <th style="width: 20%">Farm House Name</th>
+            <th style="width: 10%">Location</th>
+            <th style="width: 10%">Capacity</th>
+            <th style="width: 60%">Remarks</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let farmhouse of farmhouses">
+            <td>{{farmhouse.farmHouseId}}</td>
+            <td>{{farmhouse.farmHouseName}}</td>
+            <td>{{farmhouse.location}}</td>
+            <td>{{farmhouse.capacity}}</td>
+            <td>{{farmhouse.remarks}}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="edit/{{farmhouse.farmHouseId}}" class="btn btn-sm btn-primary me-1">Edit</a>
+                <button (click)="deleteFarmhouse(farmhouse.farmHouseId)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="farmhouse.isDeleting">
+                    <span *ngIf="farmhouse.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!farmhouse.isDeleting">Delete</span>
+                </button>
+            </td>
+
+
+        </tr>
+        <tr *ngIf="!farmhouses">
+            <td colspan="5" class="text-center">
+               <span class="spinner-border spinner-border-lg align-center"></span> 
+                <p>*No Records Found</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
