@@ -60,9 +60,9 @@ public class FarmHouseController {
 	}
 	
 	
-	@GetMapping("/dm/farmhouses/userid")
+	@GetMapping("/dm/farmhouses/userid/{userId}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<FarmHouseDto> findFarmHouseByUserId(@RequestParam("userId") Long userId){
+	public List<FarmHouseDto> findFarmHouseByUserId(@PathVariable("userId") Long userId){
 		log.info("getfarmhouseId by User ID :"+ userId);
 		return this.farmHouseServiceImpl.getFarmHouseListByUserId(userId);
 	}
@@ -74,6 +74,14 @@ public class FarmHouseController {
 			@PathVariable("farmhouseid") Long farmhouseid){
 		log.info("getfarmhouseId by User ID :"+ farmhouseid);
 		return this.farmHouseServiceImpl.getFarmHouseByFarmHouseId(farmhouseid);
+	}
+	
+	@GetMapping("/dm/farmhouse/map/{userid}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public HashMap<String,String> findFarmHouseMapByUserID(
+			@PathVariable("farmhouseid") Long farmhouseid){
+		log.info("Get FarmHouse Map by User ID :"+ farmhouseid);
+		return (HashMap<String, String>) this.farmHouseServiceImpl.getFarmHouseMapByUserId(farmhouseid);
 	}
 	
 	

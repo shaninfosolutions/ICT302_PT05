@@ -20,7 +20,9 @@ public class UserDto {
 	
 	private String twitterLink;
 	
-	private String Remarks;
+	private String emailToNotify;
+	
+	private String remarks;
 	
 	private Long noofdaysToNoti;
 	
@@ -89,12 +91,13 @@ public class UserDto {
 		this.twitterLink = twitterLink;
 	}
 
+	
 	public String getRemarks() {
-		return Remarks;
+		return remarks;
 	}
 
 	public void setRemarks(String remarks) {
-		Remarks = remarks;
+		this.remarks = remarks;
 	}
 
 	public String getMessage() {
@@ -135,6 +138,14 @@ public class UserDto {
 
 	public void setNoofdaysToNoti(Long noofdaysToNoti) {
 		this.noofdaysToNoti = noofdaysToNoti;
+	}
+
+	public String getEmailToNotify() {
+		return emailToNotify;
+	}
+
+	public void setEmailToNotify(String emailToNotify) {
+		this.emailToNotify = emailToNotify;
 	}
 	
 	

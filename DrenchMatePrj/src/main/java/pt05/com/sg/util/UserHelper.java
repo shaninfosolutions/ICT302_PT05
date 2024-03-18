@@ -12,10 +12,14 @@ public class UserHelper {
 	    userDto.setEmail(dbUser.getEmail());
 	    userDto.setDisplayName(dbUser.getUserProfile().getDisplayName());
 	    userDto.setAvator(dbUser.getUserProfile().getAvator());
+	    userDto.setPhoneNo(dbUser.getUserProfile().getPhoneNo());
 	    userDto.setFacebookLink(dbUser.getUserProfile().getFacebookLink());
 	    userDto.setTwitterLink(dbUser.getUserProfile().getTwitterLink());
-	    userDto.setPhoneNo(dbUser.getUserProfile().getPhoneNo());
+	    userDto.setNoofdaysToNoti(dbUser.getNotificationSetting().getNoOfDays());
+	    userDto.setEmailToNotify(dbUser.getNotificationSetting().getEmail());
 	    userDto.setRemarks(dbUser.getUserProfile().getRemarks());
+	    userDto.setMessage(dbUser.getName()+" Found in System");
+	    userDto.setStatus("Success");
 	    
 	    return userDto;
 	}

@@ -9,7 +9,7 @@ import pt05.com.sg.data.entity.User;
 
 public interface UserService {
 	
-	public List<User> getUserList();
+	public List<UserDto> getUserList();
 	
 	public User addOrUpdateUser(User user);
 	

@@ -6,7 +6,13 @@ public class TaskDto {
 	
 	private UserDto userDto;
 	
+	private Long userId;
+	
 	private FarmHouseDto farmHouseDto;
+	
+	private Long farmhouseId;
+	
+	private String farmHouseName;
 	
 	private String taskTitle;
 	
@@ -86,7 +92,30 @@ public class TaskDto {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	
-	
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getFarmhouseId() {
+		return farmhouseId;
+	}
+
+	public void setFarmhouseId(Long farmhouseId) {
+		this.farmhouseId = farmhouseId;
+	}
+
+	public String getFarmHouseName() {
+		return farmHouseName;
+	}
+
+	public void setFarmHouseName(String farmHouseName) {
+		this.farmHouseName = farmHouseName;
+	}
+
 
 }

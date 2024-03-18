@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import pt05.com.sg.data.dto.UserDto;
 import pt05.com.sg.data.entity.User;
 import pt05.com.sg.data.entity.UserProfile;
 import pt05.com.sg.data.repository.UserRepository;
@@ -49,7 +50,7 @@ public class DrenchMatePrjApplication implements CommandLineRunner {
 	
 	@Override
     public void run(String...args) throws Exception {
-		List<User> list=userServiceImpl.getUserList();
+		List<UserDto> list=userServiceImpl.getUserList();
 		log.info("DrenchMatePrjApplication::: BEGIN");
 		/*if(list.size()>0) {
 			list.forEach(cust->

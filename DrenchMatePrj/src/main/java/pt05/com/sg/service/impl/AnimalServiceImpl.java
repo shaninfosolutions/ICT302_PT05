@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pt05.com.sg.data.dto.AnimalDto;
+import pt05.com.sg.data.dto.FarmHouseDto;
 import pt05.com.sg.data.entity.Animal;
 import pt05.com.sg.data.entity.FarmHouse;
 import pt05.com.sg.data.entity.User;
@@ -20,6 +21,7 @@ import pt05.com.sg.data.repository.AnimalRepository;
 import pt05.com.sg.data.repository.FarmHouseRepository;
 import pt05.com.sg.service.AnimalService;
 import pt05.com.sg.util.AnimalHelper;
+import pt05.com.sg.util.FirmHouseHelper;
 
 @Service
 public class AnimalServiceImpl implements AnimalService{
@@ -34,8 +36,25 @@ public class AnimalServiceImpl implements AnimalService{
 	
 	
 	
-	public List<Animal> getList() {
-		return (List<Animal>) this.animalRepository.findAll();
+	public Map<String,List<AnimalDto>>getList() {
+		Map<String,List<AnimalDto>> responseMessage=new HashMap<String,List<AnimalDto>>();
+		List<AnimalDto> dtolist=new ArrayList<>();
+		List<Animal> list=(List<Animal>) this.animalRepository.findAll();
+		
+		if(list!=null && list.size()>0) {
+			for(Animal animal:list) {
+				AnimalDto dto=AnimalHelper.mapFarmHouseDto(animal);
+				dtolist.add(dto);
+				responseMessage.put("data", dtolist);
+			}
+		}
+		else {
+			responseMessage.put("data", null);
+			
+		}
+
+		return responseMessage;
+
 	}
 	
 	public Map<String,String> addOrUpdate(AnimalDto animal) {

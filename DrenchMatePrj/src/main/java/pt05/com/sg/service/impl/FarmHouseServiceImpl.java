@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,8 +66,11 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 		String message="";
 		
 		Optional<User> userOptional=this.userRepository.findByUserId(farmHouse.getUserId());
+		log.info("Farm House User ID: " +farmHouse.getUserId());
 		try {
-		if(userOptional.isPresent()) {
+		if(userOptional.isPresent() && userOptional.get()!=null && farmHouse.getFarmHouseId()==null) {
+			
+			log.info("Farm House Exist to Added " +farmHouse.getFarmHouseId());
 			User userDb=userOptional.get();
 			
 			FarmHouse farmHouseDb = new FarmHouse();
@@ -76,15 +80,41 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 			farmHouseDb.setRemarks(farmHouse.getRemarks());
 			farmHouseDb.setUser(userDb);
 			farmHouseDb.setCreatedBy(farmHouse.getCreatedBy());
+			farmHouseDb.setCreatedDate(new Date());
 			farmHouseDb.setLastUpdatedBy(farmHouse.getLastUpdatedBy());
+			farmHouseDb.setLastUpdatedDate(new Date());
+			
 			
 			FarmHouse saveFarmHouse= this.farmHouseRepository.save(farmHouseDb);
 			
 			if(saveFarmHouse!=null && saveFarmHouse.getFarmHouseId()>0) {
-				message="Firmhouse hased been Added/Updated Successfully";
+				message="Firmhouse hased been Added Successfully";
 				responseMessage.put("status", "Success");
 				responseMessage.put("message",message);
 			}
+		}else if (userOptional.isPresent() && userOptional.get()!=null && farmHouse.getFarmHouseId()!=null){
+			log.info("Farm House Exist to update " +farmHouse.getFarmHouseId());
+			FarmHouse farmHouseDb=this.farmHouseRepository.findByFarmHouseId(farmHouse.getFarmHouseId()).get();
+			if(farmHouseDb!=null) {
+				User userDb=userOptional.get();
+				farmHouseDb.setFarmHouseName(farmHouse.getFarmHouseName());
+				farmHouseDb.setLocation(farmHouse.getLocation());
+				farmHouseDb.setCapacity(farmHouse.getCapacity());
+				farmHouseDb.setRemarks(farmHouse.getRemarks());
+				farmHouseDb.setUser(userDb);
+				farmHouseDb.setLastUpdatedBy(farmHouse.getLastUpdatedBy());
+				farmHouseDb.setLastUpdatedDate(new Date());
+				
+				FarmHouse saveFarmHouse= this.farmHouseRepository.save(farmHouseDb);
+				
+				if(saveFarmHouse!=null && saveFarmHouse.getFarmHouseId()>0) {
+					message="Firmhouse hased been Updated Successfully";
+					responseMessage.put("status", "Success");
+					responseMessage.put("message",message);
+				}
+			}
+			
+			
 		}else {
 			log.info("User not exist, Farm House cannot be creatd without a valid user");
 			message="User must exist to create Farmhouse";
@@ -104,9 +134,9 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 	@Override
 	public FarmHouseDto getFarmHouseByFarmHouseId(Long farmHouseId) {
 		Optional<FarmHouse> farmHouse= this.farmHouseRepository.findByFarmHouseId(farmHouseId);
-		FarmHouseDto farmHouseDto=new FarmHouseDto();
+		FarmHouseDto farmHouseDto=null;
 		try {
-			if(farmHouse.isPresent()) {
+			if(farmHouse.isPresent() && farmHouse.get()!=null ) {
 				
 				farmHouseDto=FirmHouseHelper.mapFarmHouseDto(farmHouse.get());
 			}else {
@@ -120,6 +150,31 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 		
 		return farmHouseDto;
 	}
+	
+	@Override
+	public Map<String,String> getFarmHouseMapByUserId(Long userId){
+		HashMap<String,String> map=null;
+		Optional<List<FarmHouse>> farmHouse=this.farmHouseRepository.findByUserId(userId);
+		try {
+			log.info("farmHouse.isPresent() " +farmHouse.isPresent());
+			if(farmHouse.isPresent() && farmHouse.get().size()>0) {
+				map=new HashMap<String,String>();
+				List<FarmHouse> farmHouseDb=farmHouse.get();
+				for(FarmHouse fh:farmHouseDb) {
+					map.put(String.valueOf(fh.getFarmHouseId()), fh.getFarmHouseName());
+					
+				}
+			}else {
+				log.info("Farmhouse not exist in the System!!!!");
+				map=null;
+			}
+			
+		}catch(Exception e) {
+			log.info("System Exception");
+		}
+		
+		return map;
+	}
 
 	@Override
 	public List<FarmHouseDto> getFarmHouseListByUserId(Long userId) {
@@ -127,8 +182,9 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 		Optional<List<FarmHouse>> farmHouse=this.farmHouseRepository.findByUserId(userId);
 		List<FarmHouseDto> farmHouseDtolist=null;
 		try {
-			
-			if(farmHouse.isPresent()) {
+			log.info("farmHouse.isPresent() " +farmHouse.isPresent());
+			if(farmHouse.isPresent() && farmHouse.get().size()>0) {
+				log.info("Farmhouse exist in the System!!!!");
 				List<FarmHouse> farmHouseDb=farmHouse.get();
 				
 				farmHouseDtolist=new ArrayList<>();

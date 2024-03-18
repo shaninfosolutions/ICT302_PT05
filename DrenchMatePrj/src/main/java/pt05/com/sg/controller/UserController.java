@@ -77,8 +77,11 @@ public class UserController {
     }
 	
 	@GetMapping("/dm/users")
-	public List<User> findAllUser() {
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<UserDto> findAllUser() {
+		 log.info("Ger user list Entry {} ");
     	 return this.userServiceImpl.getUserList();
+ 
 	}
 	
 	
@@ -219,15 +222,14 @@ public class UserController {
         if (authentication.isAuthenticated()) {
         	log.info("User Login Authenticate Success:"+ authRequest.getEmail());
         	UserDto dto=this.userServiceImpl.getUserbyUserEmail(authRequest.getEmail());
-        	
-        	responseMap.put("token",  jwtService.generateToken(authRequest.getEmail()));
-        	responseMap.put("grant_type", "Bearer");
-        	responseMap.put("expired",String.valueOf(jwtService.tokenExpired()));
-        	responseMap.put("userid", String.valueOf(dto.getUserId()));
+        	responseMap.put("userId", String.valueOf(dto.getUserId()));
         	responseMap.put("name", dto.getName());
+        	responseMap.put("token",  jwtService.generateToken(authRequest.getEmail()));
+        	//responseMap.put("grant_type", "Bearer");
+        	//responseMap.put("expired",String.valueOf(jwtService.tokenExpired()));
         	//responseMap.put("email", dto.getEmail());
         	responseMap.put("displayname", dto.getDisplayName());
-        	responseMap.put("avator", dto.getAvator());
+        	//responseMap.put("avator", dto.getAvator());
         	responseMap.put("message", "User Authenticate Successfully");
         	responseMap.put("status", "Success");
             //return jwtService.generateToken(authRequest.getEmail());

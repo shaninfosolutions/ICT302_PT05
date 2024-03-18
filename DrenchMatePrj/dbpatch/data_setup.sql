@@ -103,7 +103,8 @@ INSERT INTO TB_USER_NOTE_RULE VALUES (SEQ_USER_NOTE_RULE_ID.nextval,1005,1009,5,
 INSERT INTO TB_USER_NOTE_RULE VALUES (SEQ_USER_NOTE_RULE_ID.nextval,1005,1014,5,'The weather is extremely hot',0,sysdate,'dbpatch',sysdate,'dbpatch');
 
 
-INSERT INTO TB_TASK VALUES (SEQ_TASK_ID.nextval,1026,1000,'TREATMENT - DRENCH LEVEL 1','YEARLY TREATMENT',sysdate,sysdate,'To prevent increasing worm count',0,sysdate,'dbpatch',sysdate,'dbpatch');
+INSERT INTO TB_TASK VALUES (SEQ_TASK_ID.nextval,1026,1000,'TREATMENT - DRENCH LEVEL 1',0,sysdate,sysdate,'To prevent increasing worm count',0,sysdate,'dbpatch',sysdate,'dbpatch');
+INSERT INTO TB_TASK VALUES (SEQ_TASK_ID.nextval,1024,1003,'HEALTH CHECK',0,sysdate,sysdate,'Health check',0,sysdate,'dbpatch',sysdate,'dbpatch');
 
 
 

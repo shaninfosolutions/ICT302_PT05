@@ -3,6 +3,7 @@ package pt05.com.sg.service.impl;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ import pt05.com.sg.data.entity.UserProfile;
 import pt05.com.sg.data.repository.NotificationSettingRepository;
 import pt05.com.sg.data.repository.UserRepository;
 import pt05.com.sg.service.UserService;
+import pt05.com.sg.util.UserHelper;
 import pt05.com.sg.validation.CustomerValidation;
 
 @Service
@@ -48,38 +50,18 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private EmailServiceImpl emailServiceImpl ;
 	
-	@Override
-	public List<User> getUserList() {
-		return (List<User>) this.userRepository.findAll();
-	}
+	
 	
 	@Override
 	public UserDto getUserbyUserId(Long userId) {
 		
 		Optional<User> userOptional=this.userRepository.findByUserId(userId);
-		  UserDto userDto=new UserDto();
 		if(userOptional.isPresent()) {
-			User dbUser=userOptional.get();
-			//Mapping into the User DTO 
-			userDto.setUserId(userId);
-		    userDto.setName(dbUser.getName());
-		    userDto.setEmail(dbUser.getEmail());
-		    userDto.setDisplayName(dbUser.getUserProfile().getDisplayName());
-		    userDto.setAvator(dbUser.getUserProfile().getAvator());
-		    userDto.setFacebookLink(dbUser.getUserProfile().getFacebookLink());
-		    userDto.setTwitterLink(dbUser.getUserProfile().getTwitterLink());
-		    userDto.setPhoneNo(dbUser.getUserProfile().getPhoneNo());
-		    userDto.setRemarks(dbUser.getUserProfile().getRemarks());
-		    userDto.setMessage("User Found in System");
-		    userDto.setStatus("Success");
-		}else {
-			// userDto.setMessage(userId+" Not Found in System");
-			// userDto.setStatus("Failed");
-			 userDto=null;
-			// throw new Exception("User not found in System!!!!");
+			UserDto userDto=UserHelper.mapUserDto(userOptional.get());
+			return userDto;
 		}
 
-		return userDto;
+		return null;
 	}
 	
 
@@ -235,13 +217,19 @@ public class UserServiceImpl implements UserService{
 					dbUserProfile.setFacebookLink(user.getFacebookLink());
 					dbUserProfile.setTwitterLink(user.getTwitterLink());
 					dbUserProfile.setPhoneNo(user.getPhoneNo());
+					
 					dbUserProfile.setRemarks(user.getRemarks());
 					dbUserProfile.setLastUpdatedDate(new Date());
 					dbUserProfile.setLastUpdatedBy(user.getName());
-					
 					dbUserProfile.setUser(dbUser);
-					
 					dbUser.setUserProfile(dbUserProfile);
+					
+					NotificationSetting notiSetting=dbUser.getNotificationSetting();		
+					notiSetting.setEmail(user.getEmailToNotify());
+					notiSetting.setNoOfDays(user.getNoofdaysToNoti());
+					notiSetting.setUser(dbUser);
+					notiSetting.setLastUpdatedBy(user.getName());
+					notiSetting.setLastUpdatedDate(new Date());
 					
 					this.userRepository.save(dbUser);
 					
@@ -321,6 +309,24 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		return responseMessage;
+	}
+
+
+	@Override
+	public List<UserDto> getUserList() {
+		List<User> list=(List<User>) this.userRepository.findAll();
+		List<UserDto> dtolist=new ArrayList<>();	
+		if(list!=null && list.size()>0) {
+			for (User user:list) {
+				UserDto dto=UserHelper.mapUserDto(user);
+				dtolist.add(dto);
+			}
+		}else {
+			dtolist=null;
+		}
+		
+		
+		return dtolist;
 	}
 
 }

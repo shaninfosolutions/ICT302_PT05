@@ -18,6 +18,8 @@ public interface FarmHouseService {
 	
 	public Map<String,String>  deleteFarmhouseById(Long farmhouseById);
 	
+	public Map<String,String> getFarmHouseMapByUserId(Long userId);
+	
 	
 	
 	

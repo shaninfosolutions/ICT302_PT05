@@ -8,7 +8,7 @@ import pt05.com.sg.data.entity.Animal;
 
 public interface AnimalService {
 
-	public List<Animal> getList() ;
+	public Map<String,List<AnimalDto>>getList();
 	
 	public Map<String,String> addOrUpdate(AnimalDto animal);
 	
