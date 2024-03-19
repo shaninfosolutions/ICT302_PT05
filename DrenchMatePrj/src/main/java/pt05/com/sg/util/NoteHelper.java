@@ -13,6 +13,7 @@ public class NoteHelper {
 		dto.setNoteTitle(note.getNoteTitle());
 		dto.setNoteType(note.getNoteType());
 		dto.setRemarks(note.getRemarks());
+		dto.setStatus(note.getStatus());
 		
 		FarmHouse farmHouse=note.getFarmHouse();
 		
@@ -22,6 +23,11 @@ public class NoteHelper {
 		fhdto.setCapacity(farmHouse.getCapacity());
 		fhdto.setLocation(farmHouse.getLocation());
 		fhdto.setRemarks(farmHouse.getRemarks());
+		
+		dto.setFarmHouseName(farmHouse.getFarmHouseName());
+		dto.setFarmHouseId(String.valueOf(farmHouse.getFarmHouseId()) );
+		
+		
 		
 		dto.setFarmHouseDto(fhdto);
 		

@@ -1,7 +1,10 @@
 package pt05.com.sg.data.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -36,6 +40,9 @@ public class Note extends Base{
 	@ManyToOne
 	@JoinColumn(name="FarmHouseId")
 	private FarmHouse farmHouse;
+	
+	@OneToMany(mappedBy = "note", cascade = CascadeType.ALL)
+    private List<UserNoteRule> userNoteList=new ArrayList<>();
 	
 	@Column(name = "NoteTitle")
 	private String noteTitle;
@@ -161,5 +168,15 @@ public class Note extends Base{
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+
+	public List<UserNoteRule> getUserNoteList() {
+		return userNoteList;
+	}
+
+	public void setUserNoteList(List<UserNoteRule> userNoteList) {
+		this.userNoteList = userNoteList;
+	}
+	
+	
 
 }

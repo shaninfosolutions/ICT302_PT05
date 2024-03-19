@@ -9,6 +9,12 @@ public class NoteDto {
 	
 	private FarmHouseDto farmHouseDto;
 	
+	private String farmHouseId;
+	
+	private String farmHouseName;
+	
+	private String userId;
+	
 	private String noteTitle;
 	
 
@@ -95,6 +101,38 @@ public class NoteDto {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+
+
+	public String getFarmHouseId() {
+		return farmHouseId;
+	}
+
+
+	public void setFarmHouseId(String farmHouseId) {
+		this.farmHouseId = farmHouseId;
+	}
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+
+	public String getFarmHouseName() {
+		return farmHouseName;
+	}
+
+
+	public void setFarmHouseName(String farmHouseName) {
+		this.farmHouseName = farmHouseName;
+	}
+	
+	
 	
 	
 

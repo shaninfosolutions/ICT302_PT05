@@ -88,7 +88,7 @@ public class FarmHouseServiceImpl implements FarmHouseService{
 			FarmHouse saveFarmHouse= this.farmHouseRepository.save(farmHouseDb);
 			
 			if(saveFarmHouse!=null && saveFarmHouse.getFarmHouseId()>0) {
-				message="Firmhouse hased been Added Successfully";
+				message="Firmhouse has been Added Successfully";
 				responseMessage.put("status", "Success");
 				responseMessage.put("message",message);
 			}

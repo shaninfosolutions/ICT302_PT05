@@ -45,6 +45,9 @@ public class FarmHouse extends Base{
 	@OneToMany(mappedBy = "farmHouse")
 	private List<Animal> animalList=new ArrayList<>();
 	
+	@OneToMany(mappedBy = "farmHouse", cascade = CascadeType.ALL)
+    private List<Note> noteList=new ArrayList<>();
+	
 	
 	@Column(name = "FarmHouseName")
 	private String farmHouseName;
@@ -176,6 +179,16 @@ public class FarmHouse extends Base{
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+
+	public List<Note> getNoteList() {
+		return noteList;
+	}
+
+	public void setNoteList(List<Note> noteList) {
+		this.noteList = noteList;
+	}
+	
+	
 	
 
 }

@@ -23,14 +23,14 @@ public class TaskHelper {
 		dto.setTaskTitle(t.getTaskTitle());
 		dto.setTaskType(t.getTaskType());
 		dto.setRemarks(t.getRemarks());
-		dto.setFarmhouseId(t.getFarmHouse().getFarmHouseId());
+		dto.setFarmHouseId(t.getFarmHouse().getFarmHouseId());
 		dto.setUserId(t.getUser().getUserId());
 		
 		return dto;
 	}
 
 	public static String dateToStringDDMMMYYYY(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		if(date!=null) {
 			return sdf.format(date);
 		}else {
@@ -40,7 +40,7 @@ public class TaskHelper {
 	}
 	
 	public static Date stringToDateDDMMMYYYY(String dateString) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             // Parse the string into a Date object
         Date date;
 		try {

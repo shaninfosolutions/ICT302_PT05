@@ -10,7 +10,7 @@ public class TaskDto {
 	
 	private FarmHouseDto farmHouseDto;
 	
-	private Long farmhouseId;
+	private Long farmHouseId;
 	
 	private String farmHouseName;
 	
@@ -101,12 +101,12 @@ public class TaskDto {
 		this.userId = userId;
 	}
 
-	public Long getFarmhouseId() {
-		return farmhouseId;
+	public Long getFarmHouseId() {
+		return farmHouseId;
 	}
 
-	public void setFarmhouseId(Long farmhouseId) {
-		this.farmhouseId = farmhouseId;
+	public void setFarmHouseId(Long farmHouseId) {
+		this.farmHouseId = farmHouseId;
 	}
 
 	public String getFarmHouseName() {
