@@ -6,12 +6,11 @@ import { FarmHouseService } from '@app/_services/farmhouse.service';
 import { TasksService } from '@app/_services/tasks.service';
 import { NotesService } from '@app/_services/note.service';
 import {  AlertService } from '@app/_services';
-import { RuleCodeService } from '@app/_services/rulecode.service';
 
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
-    rules?: any[];
+    notes?: any[];
     
 
     loading = false;
@@ -21,7 +20,7 @@ export class ListComponent implements OnInit {
     user?:any;
 
     constructor(
-        private ruleCodeService: RuleCodeService,
+        private notesService: NotesService,
         private alertService: AlertService,
         private route: ActivatedRoute,
         private router: Router,) {
@@ -32,13 +31,13 @@ export class ListComponent implements OnInit {
     
     ngOnInit() {
        debugger;
-        this.ruleCodeService.getAll()
-            .subscribe(rules => this.rules = rules);
+        this.notesService.getAllByUserId(JSON.parse(this.user).userId)
+            .subscribe(notes => this.notes = notes);
 
         
     }
 
-    deleteRule(id: string) {
+    deleteNote(id: string) {
         debugger;
        // const farmhouse = this.farmhouses!.find(x => x.id === id);
        // farmhouse.isDeleting = true;
@@ -47,7 +46,7 @@ export class ListComponent implements OnInit {
             //.subscribe(() => this.farmhouses = this.farmhouses!.filter(x => x.id !== id));
 
             debugger;
-            this.ruleCodeService.delete(id)
+            this.notesService.delete(id)
             .pipe(first())
             .subscribe({
                 next: () => {
@@ -56,8 +55,8 @@ export class ListComponent implements OnInit {
                     //this.router.navigateByUrl(this.router.url);
                     // Navigate to a different route and then back to trigger a reload
                     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                    this.router.navigate(['rules']);
-                    this.alertService.success('Rule Deletion successful', { keepAfterRouteChange: false });
+                    this.router.navigate(['tasks']);
+                    this.alertService.success('Task Deletion successful', { keepAfterRouteChange: false });
                     });
                     
                 },

@@ -2,16 +2,17 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { RuleCodesRoutingModule } from './rulecode-routing.module';
+
 import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
 import { AddEditComponent } from './add-edit.component';
+import { NotesRoutingModule } from './notes-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        RuleCodesRoutingModule
+        NotesRoutingModule
     ],
     declarations: [
         LayoutComponent,
@@ -20,4 +21,4 @@ import { AddEditComponent } from './add-edit.component';
     ]
 })
 
-export class RulecodeModule { }
+export class NotesModule{}

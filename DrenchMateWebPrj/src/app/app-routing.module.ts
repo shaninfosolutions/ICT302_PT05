@@ -7,9 +7,10 @@ import { AddEditComponent } from './users/add-edit.component';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
-const ruleModule = () => import('./rulecode/rulecode.module').then(x => x.RulecodeModule);
+const ruleModule = () => import('./rulecode/rules.module').then(x => x.RulesModule);
 const farmHouseModule = () => import('./farmhouse/farmhouse.module').then(x => x.FarmHouseModule);
 const taskModule = () => import('./tasks/tasks.module').then(x => x.TasksModule);
+const noteModule = () => import('./notes/notes.module').then(x => x.NotesModule);
 
 
 const routes: Routes = [
@@ -17,10 +18,12 @@ const routes: Routes = [
     { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
     { path: 'farmhouses', loadChildren: farmHouseModule, canActivate: [AuthGuard] },
     { path: 'tasks', loadChildren: taskModule, canActivate: [AuthGuard] },
+    { path: 'notes', loadChildren: noteModule, canActivate: [AuthGuard] },
+    { path: 'rules', loadChildren: ruleModule, canActivate: [AuthGuard] },
     
     { path: 'account', loadChildren: accountModule },
     { path: 'user/:userId', component: AddEditComponent, canActivate: [AuthGuard] },
-    { path: 'rulecodes', loadChildren: ruleModule, canActivate: [AuthGuard] },
+   
     
     //{ path: 'statementpdf/:id', component: DigitalStatementComponent,canActivate:[AuthGaurdService]},
 

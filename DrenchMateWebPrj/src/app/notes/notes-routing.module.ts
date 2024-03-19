@@ -11,8 +11,8 @@ const routes: Routes = [
         children: [
             { path: '', component: ListComponent },
             { path: 'add', component: AddEditComponent },
-            { path: 'edit/:ruleCodeId', component: AddEditComponent },
-           // { path: 'user/:id', component: AddEditComponent },
+            { path: 'edit/:noteId', component: AddEditComponent },
+            { path: 'note/:id', component: AddEditComponent },
         ]
     }
 ];
@@ -21,4 +21,6 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class RuleCodesRoutingModule { }
+
+export class NotesRoutingModule{
+}

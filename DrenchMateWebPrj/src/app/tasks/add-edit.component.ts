@@ -23,6 +23,8 @@ export class AddEditComponent implements OnInit {
     submitting = false;
     submitted = false;
     farmHouseDto?:FarmHouseDto
+    farmhouses?: any[];
+    selectedFarmhouseId: any;
 
     taskDto?:TaskDto;
 
@@ -30,6 +32,7 @@ export class AddEditComponent implements OnInit {
    
 
     constructor(
+        private farmhouseService: FarmHouseService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -40,16 +43,19 @@ export class AddEditComponent implements OnInit {
 
     ngOnInit() {
         this.taskId= this.route.snapshot.params['taskId'];
-       
-
         // form with validation rules
+        debugger;
         this.form = this.formBuilder.group({
-            farmHouseName: ['', Validators.required],
+            farmHouseId:['',Validators.required],
+            //farmHouseName: ['', Validators.required],
             taskTitle: ['', Validators.required],
             startDate: ['', Validators.required],
             endDate: ['', Validators.required],
             remarks: ['', Validators.required],
         });
+
+        this.farmhouseService.getAllByUserId(JSON.parse(this.user).userId)
+            .subscribe(farmhouses => this.farmhouses = farmhouses);
 
         this.title = 'Add New Task';
         if (this.taskId) {
@@ -62,16 +68,6 @@ export class AddEditComponent implements OnInit {
                     this.form.patchValue(x);
                     this.loading = false;
                 });
-
-            
-        }else{
-
-            this.farmHouseService.getFHNameMapByUserId(JSON.parse(this.user).userId)
-                .pipe(first())
-                .subscribe(x=>{
-                    this.form.patchValue({ ...this.form.value,farmHouseNameMap:x})
-                })
-            
         }
     }
 
@@ -80,6 +76,7 @@ export class AddEditComponent implements OnInit {
 
     onSubmit() {
 
+        debugger;
         this.submitted = true;
 
         // reset alerts on submit
@@ -93,21 +90,18 @@ export class AddEditComponent implements OnInit {
         this.loading = true;
 
         if (this.taskId) {
-
             const  userId =JSON.parse(this.user).userId;
             const  lastUpdatedBy=JSON.parse(this.user).name;
      
-            const updatedFormValue = { ...this.form.value, userId: userId, lastUpdatedBy:lastUpdatedBy,
-                farmHouseId:this.farmHouseId};
+            const updatedFormValue = { ...this.form.value, userId: userId,taskId:this.taskId,
+                 lastUpdatedBy:lastUpdatedBy};
 
-            this.farmHouseService.add(updatedFormValue)
+            this.tasksService.add(updatedFormValue)
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('Farmhouse Update successful', { keepAfterRouteChange: true });
-                    //this.router.navigate(['farmhouses'], { relativeTo: this.route });
-
-                    this.router.navigate(['farmhouses']);
+                    this.alertService.success('Task Update successful', { keepAfterRouteChange: true });
+                    this.router.navigate(['tasks']);
                 },
                 error: error => {
                     this.alertService.error(error);
@@ -116,21 +110,20 @@ export class AddEditComponent implements OnInit {
             });
 
         }else{
-       debugger;
        const  userId =JSON.parse(this.user).userId;
        const  createdBy=JSON.parse(this.user).name;
        const  lastUpdatedBy=JSON.parse(this.user).name;
 
        const updatedFormValue = { ...this.form.value, userId: userId, 
                     createdBy:createdBy,lastUpdatedBy:lastUpdatedBy};
-
-        this.farmHouseService.add(updatedFormValue)
+      
+        this.tasksService.add(updatedFormValue)
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('New Farmhouse Added successful', { keepAfterRouteChange: true });
+                    this.alertService.success('New Task Added successful', { keepAfterRouteChange: true });
                     //this.router.navigate(['/'], { relativeTo: this.route });
-                    this.router.navigate(['farmhouses']);
+                    this.router.navigate(['tasks']);
                 },
                 error: error => {
                     this.alertService.error(error);
@@ -141,6 +134,12 @@ export class AddEditComponent implements OnInit {
         }
         
     }
+
+    onFarmhouseSelect() {
+       // this.farmHouseId=this.form.get('farmHouseId')?.value;
+    }
+   
+    
 
     private saveUser() {
         

@@ -1,0 +1,36 @@
+﻿<h1>Rule Code</h1>
+<a routerLink="add" class="btn btn-sm btn-success mb-2" >Add Rule Code</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 10%">Rule Code ID</th>
+            <th style="width: 20%">Code</th>
+            <th style="width: 20%">Code Description</th>
+            <th style="width: 50%">Remarks</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let rule of rules">
+            <td>{{rule.ruleCodeId}}</td>
+            <td>{{rule.code}}</td>
+            <td>{{rule.codeDesc}}</td>
+            <td>{{rule.remarks}}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="edit/{{rule.ruleCodeId}}" class="btn btn-sm btn-primary me-1">Edit</a>
+                <button (click)="deleteRule(rule.ruleCodeId)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="rule.isDeleting">
+                    <span *ngIf="rule.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!rule.isDeleting">Delete</span>
+                </button>
+            </td>
+
+
+        </tr>
+        <tr *ngIf="!rules">
+            <td colspan="5" class="text-center">
+               <span class="spinner-border spinner-border-lg align-center"></span> 
+                <p>*No Records Found</p>
+            </td>
+        </tr>
+    </tbody>
+</table>

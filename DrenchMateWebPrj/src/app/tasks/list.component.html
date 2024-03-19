@@ -4,6 +4,7 @@
     <thead>
         <tr>
             <th style="width: 10%">Task ID</th>
+            <th style="width: 20%">Farm House Name</th>
             <th style="width: 20%">Task Title</th>
             <th style="width: 20%">Start Date</th>
             <th style="width: 20%">End Date</th>
@@ -14,6 +15,7 @@
     <tbody>
         <tr *ngFor="let task of tasks">
             <td>{{task.taskId}}</td>
+            <td>{{task.farmHouseName}}</td>
             <td>{{task.taskTitle}}</td>
             <td>{{task.startDate}}</td>
             <td>{{task.endDate}}</td>

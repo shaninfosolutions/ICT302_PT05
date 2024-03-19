@@ -3,17 +3,32 @@
     <div class="card-body">
 
             <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
-                
-                <div class="row">
-                    <div class="mb-3 col">
-                        <label class="form-label">Farm House Name</label>
-                        <input type="text" formControlName="farmHouseName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.farmHouseName.errors }" />
-                        <div *ngIf="submitted && f.farmHouseName.errors" class="invalid-feedback">
-                            <div *ngIf="f.farmHouseName.errors.required">Farm House Name is required</div>
-                        </div>
-                    </div>
-                    
+            
+                <div class="mb-3 col">
+                    <label class="form-label">Select Farm House</label>
+                    <select formControlName="farmHouseId" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.farmHouseId.errors }"  (change)="onFarmhouseSelect()">
+                        <option *ngFor="let farmhouse of farmhouses" [value]="farmhouse.farmHouseId">{{ farmhouse.farmHouseName }}</option>
+                    </select>
                 </div>
+           
+            <!--<div *ngIf="this.taskId">
+                <div class="mb-3 col">
+                    <label class="form-label">Farm House ID</label>
+                    <input type="text" formControlName="farmHouseId" class="form-control"  
+                    [ngClass]="{ 'is-invalid': submitted && f.farmHouseId.errors }"  />
+                    <div *ngIf="submitted && f.farmHouseId.errors" class="invalid-feedback">
+                        <div *ngIf="f.farmHouseId.errors.required">Farm House Name is required</div>
+                    </div>
+                </div>
+                <div class="mb-3 col">
+                    <label class="form-label">Farm House Name</label>
+                    <input type="text" formControlName="farmHouseName" class="form-control"  
+                    [ngClass]="{ 'is-invalid': submitted && f.farmHouseName.errors }"  />
+                    <div *ngIf="submitted && f.farmHouseName.errors" class="invalid-feedback">
+                        <div *ngIf="f.farmHouseName.errors.required">Farm House Name is required</div>
+                    </div>
+                </div>
+            </div>-->
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Task Title</label>

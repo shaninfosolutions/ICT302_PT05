@@ -4,11 +4,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { FarmHouseService } from '@app/_services/farmhouse.service';
 import { TasksService } from '@app/_services/tasks.service';
+import { NotesService } from '@app/_services/note.service';
 import {  AlertService } from '@app/_services';
+
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
     tasks?: any[];
+    
 
     loading = false;
     submitting = false;
@@ -16,7 +19,8 @@ export class ListComponent implements OnInit {
 
     user?:any;
 
-    constructor(private tasksService: TasksService,
+    constructor(
+        private tasksService: TasksService,
         private alertService: AlertService,
         private route: ActivatedRoute,
         private router: Router,) {
@@ -29,6 +33,8 @@ export class ListComponent implements OnInit {
        debugger;
         this.tasksService.getAllByUserId(JSON.parse(this.user).userId)
             .subscribe(tasks => this.tasks = tasks);
+
+        
     }
 
     deleteFarmhouse(id: string) {
@@ -49,8 +55,8 @@ export class ListComponent implements OnInit {
                     //this.router.navigateByUrl(this.router.url);
                     // Navigate to a different route and then back to trigger a reload
                     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                    this.router.navigate(['tasks']);
-                    this.alertService.success('Task Deletion successful', { keepAfterRouteChange: false });
+                    this.router.navigate(['notes']);
+                    this.alertService.success('Note Deletion successful', { keepAfterRouteChange: false });
                     });
                     
                 },

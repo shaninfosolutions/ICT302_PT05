@@ -6,7 +6,7 @@ import { environment } from '@environments/environment';
 import { TaskDto } from '@app/_models/task';
 
 @Injectable({ providedIn: 'root' })
-export class TasksService {
+export class NotesService {
 
     public taskDto?: Observable<TaskDto | null>;
 
@@ -20,24 +20,24 @@ export class TasksService {
 
     getAllByUserId(userId: string) {
         debugger;
-        return this.http.get<TaskDto[]>(`${environment.apiUrl}/api/v1/dm/tasks/userid/${userId}`);
+        return this.http.get<TaskDto[]>(`${environment.apiUrl}/api/v1/dm/notes/userid/${userId}`);
     }
 
-    getById(taskId: string) {
+    getById(noteId: string) {
         debugger;
-        return this.http.get<TaskDto>(`${environment.apiUrl}/api/v1/dm/tasks/${taskId}`);
+        return this.http.get<TaskDto>(`${environment.apiUrl}/api/v1/dm/notes/${noteId}`);
     }
 
     add(params: any) {
        debugger;
-        return this.http.post(`${environment.apiUrl}/api/v1/dm/task/add`, params);
+        return this.http.post(`${environment.apiUrl}/api/v1/dm/note/add`, params);
     }
 
     
 
-    delete(taskId: string) {
+    delete(noteId: string) {
         debugger;
-        return this.http.delete(`${environment.apiUrl}/api/v1/dm/task/delete/${taskId}`);
+        return this.http.delete(`${environment.apiUrl}/api/v1/dm/note/delete/${noteId}`);
             
     }
 

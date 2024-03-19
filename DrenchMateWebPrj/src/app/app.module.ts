@@ -8,7 +8,7 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
-import { RulecodeComponent } from './rulecode/rulecode.component';
+
 
 @NgModule({
     imports: [
@@ -21,7 +21,6 @@ import { RulecodeComponent } from './rulecode/rulecode.component';
         AppComponent,
         AlertComponent,
         HomeComponent,
-        RulecodeComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

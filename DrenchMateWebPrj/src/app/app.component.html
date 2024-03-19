@@ -8,23 +8,20 @@
 
         <a class="nav-item nav-link" routerLink="/tasks" routerLinkActive="active">Task</a>
 
-        <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Note</a>
+        <a class="nav-item nav-link" routerLink="/notes" routerLinkActive="active">Note</a>
 
-        <a class="nav-item nav-link" routerLink="/rulecodes" routerLinkActive="active">Rule Code</a>
+        <a class="nav-item nav-link" routerLink="/rules" routerLinkActive="active">Rule Code</a>
         
         <a class="nav-item nav-link" routerLink="/user/{{user.userId}}" routerLinkActive="active">User Profile</a>
         
         <button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
     </div>
 </nav>
-
 <!-- main app container -->
 <div class="app-container" [ngClass]="{ 'bg-light': user }"> 
     <alert></alert>
     <router-outlet></router-outlet>
 </div>
-
-
 
 <footer class="footer">
     <div class="container">
