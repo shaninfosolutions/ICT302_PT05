@@ -28,9 +28,9 @@ export class RuleCodeService {
         return this.http.get<TaskDto[]>(`${environment.apiUrl}/api/v1/dm/rules`);
     }
 
-    getById(ruleId: string) {
+    getById(ruleCodeId: string) {
         debugger;
-        return this.http.get<TaskDto>(`${environment.apiUrl}/api/v1/dm/rules/${ruleId}`);
+        return this.http.get<any>(`${environment.apiUrl}/api/v1/dm/rules/${ruleCodeId}`);
     }
 
     add(params: any) {
@@ -40,7 +40,7 @@ export class RuleCodeService {
 
     getByRuleCode(ruleCode: string) {
         debugger;
-        return this.http.get<TaskDto>(`${environment.apiUrl}/api/v1/dm/rulecode/${ruleCode}`);
+        return this.http.get<any>(`${environment.apiUrl}/api/v1/dm/rule/codevalue/${ruleCode}`);
     }
 
     delete(ruleId: string) {

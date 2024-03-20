@@ -8,22 +8,18 @@ import { FarmHouseDto } from '@app/_models/farmhouse';
 import { FarmHouseService } from '@app/_services/farmhouse.service';
 import { NotesService } from '@app/_services/note.service';
 import { TaskDto } from '@app/_models/task';
-
+import { RuleCodeService } from '@app/_services/rulecode.service';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
     form!: FormGroup;
-    farmHouseId?: string;
-
-    farmHouseNameMap?:any;
-
-    noteId?:string;
+    ruleCodeId?:string;
     title!: string;
     loading = false;
     submitting = false;
     submitted = false;
     farmHouseDto?:FarmHouseDto
-    farmhouses?: any[];
+    //ruleCodeValueList?: any[];
     selectedFarmhouseId: any;
 
     taskDto?:TaskDto;
@@ -33,6 +29,7 @@ export class AddEditComponent implements OnInit {
 
     constructor(
         private farmhouseService: FarmHouseService,
+        private ruleCodeService:RuleCodeService,
         private notesService:NotesService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -41,27 +38,27 @@ export class AddEditComponent implements OnInit {
     ) {  this.user=localStorage.getItem('user');}
 
     ngOnInit() {
-        this.noteId= this.route.snapshot.params['noteId'];
+        this.ruleCodeId= this.route.snapshot.params['ruleId'];
         // form with validation rules
         debugger;
         this.form = this.formBuilder.group({
-            farmHouseId:['',Validators.required],
+           // farmHouseId:['',Validators.required],
             //farmHouseName: ['', Validators.required],
-            noteTitle: ['', Validators.required],
-            noteType: ['', Validators.required],
-            status: ['', Validators.required],
+            codeDesc: ['', Validators.required],
+            code: ['', Validators.required],
             remarks: ['', Validators.required],
+            ruleCodeValueList:[[],Validators.required]
         });
 
-        this.farmhouseService.getAllByUserId(JSON.parse(this.user).userId)
-            .subscribe(farmhouses => this.farmhouses = farmhouses);
-
-        this.title = 'Add New Note';
-        if (this.noteId) {
+        //this.farmhouseService.getAllByUserId(JSON.parse(this.user).userId)
+           // .subscribe(ruleCodes => this.ruleCodes = ruleCodes);
+        debugger;
+        this.title = 'Add New Rule Code';
+        if (this.ruleCodeId) {
             // edit mode
-            this.title = 'Edit Note';
+            this.title = 'Edit Rule Code';
             this.loading = true;
-            this.notesService.getById(this.noteId)
+            this.ruleCodeService.getById(this.ruleCodeId)
                 .pipe(first())
                 .subscribe(x => {
                     this.form.patchValue(x);
@@ -88,19 +85,19 @@ export class AddEditComponent implements OnInit {
 
         this.loading = true;
 
-        if (this.noteId) {
+        if (this.ruleCodeId) {
             const  userId =JSON.parse(this.user).userId;
             const  lastUpdatedBy=JSON.parse(this.user).name;
      
-            const updatedFormValue = { ...this.form.value, userId: userId,noteId:this.noteId,
+            const updatedFormValue = { ...this.form.value, userId: userId,noteId:this.ruleCodeId,
                  lastUpdatedBy:lastUpdatedBy};
 
-            this.notesService.add(updatedFormValue)
+            this.ruleCodeService.add(updatedFormValue)
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('Note Update successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['notes']);
+                    this.alertService.success('Rule Code Update successful', { keepAfterRouteChange: true });
+                    this.router.navigate(['rules']);
                 },
                 error: error => {
                     this.alertService.error(error);
@@ -120,9 +117,9 @@ export class AddEditComponent implements OnInit {
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('New Note Added successful', { keepAfterRouteChange: true });
+                    this.alertService.success('New Rule Code Added successful', { keepAfterRouteChange: true });
                     //this.router.navigate(['/'], { relativeTo: this.route });
-                    this.router.navigate(['notes']);
+                    this.router.navigate(['rules']);
                 },
                 error: error => {
                     this.alertService.error(error);
@@ -136,6 +133,10 @@ export class AddEditComponent implements OnInit {
 
     onFarmhouseSelect() {
        // this.farmHouseId=this.form.get('farmHouseId')?.value;
+    }
+
+    deleteRule(id: string){
+
     }
    
     

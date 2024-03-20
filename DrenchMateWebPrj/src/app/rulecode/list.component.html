@@ -17,11 +17,11 @@
             <td>{{rule.codeDesc}}</td>
             <td>{{rule.remarks}}</td>
             <td style="white-space: nowrap">
-                <a routerLink="edit/{{rule.ruleCodeId}}" class="btn btn-sm btn-primary me-1">Edit</a>
-                <button (click)="deleteRule(rule.ruleCodeId)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="rule.isDeleting">
+                <a routerLink="edit/{{rule.ruleCodeId}}" class="btn btn-sm btn-primary me-1">View</a>
+               <!--<button (click)="deleteRule(rule.ruleCodeId)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="rule.isDeleting">
                     <span *ngIf="rule.isDeleting" class="spinner-border spinner-border-sm"></span>
                     <span *ngIf="!rule.isDeleting">Delete</span>
-                </button>
+                </button>--> 
             </td>
 
 

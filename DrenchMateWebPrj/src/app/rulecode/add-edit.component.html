@@ -4,19 +4,12 @@
 
             <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
             
-                <div class="mb-3 col">
-                    <label class="form-label">Select Farm House</label>
-                    <select formControlName="farmHouseId" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.farmHouseId.errors }"  (change)="onFarmhouseSelect()">
-                        <option *ngFor="let farmhouse of farmhouses" [value]="farmhouse.farmHouseId">{{ farmhouse.farmHouseName }}</option>
-                    </select>
-                </div>
-
                 <div class="row">
                     <div class="mb-3 col">
-                        <label class="form-label">Note Title</label>
-                        <input type="text" formControlName="noteTitle" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.noteTitle.errors }" />
-                        <div *ngIf="submitted && f.noteTitle.errors" class="invalid-feedback">
-                            <div *ngIf="f.noteTitle.errors.required">Note Tile is required</div>
+                        <label class="form-label">Rule Code</label>
+                        <input type="text" formControlName="codeDesc" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.codeDesc.errors }" />
+                        <div *ngIf="submitted && f.codeDesc.errors" class="invalid-feedback">
+                            <div *ngIf="f.codeDesc.errors.required">Code Desc is required</div>
                         </div>
                     </div>
                 </div>
@@ -24,20 +17,10 @@
 
                 <div class="row">
                     <div class="mb-3 col">
-                        <label class="form-label">Note Type</label>
-                        <input type="text" formControlName="noteType" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.noteType.errors }" />
-                        <div *ngIf="submitted && f.noteType.errors" class="invalid-feedback">
-                            <div *ngIf="f.noteType.errors.required">Note Type is required</div>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="row">
-                    <div class="mb-3 col">
-                        <label class="form-label">Status</label>
-                        <input type="text" formControlName="status" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.status.errors }" />
-                        <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
-                            <div *ngIf="f.status.errors.required">status is required</div>
+                        <label class="form-label">Code</label>
+                        <input type="text" formControlName="code" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
+                        <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                            <div *ngIf="f.code.errors.required">Code is required</div>
                         </div>
                     </div>
                     
@@ -45,20 +28,63 @@
                 <div class="row">
                     <div class="mb-3 col">
                         <label class="form-label">Remarks</label>
-                        <input type="text" formControlName="remarks" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }" />
+                        <input type="text" formControlName="remarks" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.status.errors }" />
                         <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
                             <div *ngIf="f.remarks.errors.required">Remarks is required</div>
                         </div>
                     </div>
-                    </div>
                     
+                </div>
+
                 <div class="mb-3">
                     <button [disabled]="submitting" class="btn btn-primary">
                         <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
                         Save
                     </button>
-                    <a routerLink="/tasks" class="btn btn-link">Cancel</a>
+                    <a routerLink="/rules" class="btn btn-link">Cancel</a>
                 </div>
+
+
+            <h5>Rule Code Value</h5>
+            <a routerLink="add" class="btn btn-sm btn-success mb-2" >Add Rule Code Value</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 20%">Rule Code value ID</th>
+                        <th style="width: 20%">Code</th>
+                        <th style="width: 20%">Code Description</th>
+                        <th style="width: 10%">Value</th>
+                        <th style="width: 50%">Remarks</th>
+                        <th style="width: 10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ruleCode of form.get('ruleCodeValueList')?.value let i = index">
+                        <td>{{ruleCode.ruleCodeValueId}}</td>
+                        <td>{{ruleCode.code}}</td>
+                        <td>{{ruleCode.codeDesc}}</td>
+                        <td>{{ruleCode.codeValue}} </td>
+                        <td>{{ruleCode.remarks}}</td>
+                        <td style="white-space: nowrap">
+                            <a routerLink="edit/{{ruleCode.ruleCodeValueId}}" class="btn btn-sm btn-primary me-1">Edit</a>
+                            <button (click)="deleteRule(ruleCode.ruleCodeValueId)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="ruleCode.isDeleting">
+                                <span *ngIf="ruleCode.isDeleting" class="spinner-border spinner-border-sm"></span>
+                                <span *ngIf="!ruleCode.isDeleting">Delete</span>
+                            </button>
+                        </td>
+
+
+                    </tr>
+                    <tr *ngIf="!form.get('ruleCodeValueList')">
+                        <td colspan="5" class="text-center">
+                        <span class="spinner-border spinner-border-lg align-center"></span> 
+                            <p>*No Records Found</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
             </form>
             <div *ngIf="loading" class="text-center m-5">
                 <span class="spinner-border spinner-border-lg align-center"></span>

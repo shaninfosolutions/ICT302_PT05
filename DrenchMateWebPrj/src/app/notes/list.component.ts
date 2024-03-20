@@ -55,8 +55,8 @@ export class ListComponent implements OnInit {
                     //this.router.navigateByUrl(this.router.url);
                     // Navigate to a different route and then back to trigger a reload
                     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                    this.router.navigate(['tasks']);
-                    this.alertService.success('Task Deletion successful', { keepAfterRouteChange: false });
+                    this.router.navigate(['notes']);
+                    this.alertService.success('Note Deletion successful', { keepAfterRouteChange: false });
                     });
                     
                 },

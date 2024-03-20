@@ -7,6 +7,7 @@ import { AlertService } from '@app/_services';
 import { FarmHouseDto } from '@app/_models/farmhouse';
 import { FarmHouseService } from '@app/_services/farmhouse.service';
 import { NotesService } from '@app/_services/note.service';
+import { RuleCodeService } from '@app/_services/rulecode.service';
 import { TaskDto } from '@app/_models/task';
 
 
@@ -24,7 +25,13 @@ export class AddEditComponent implements OnInit {
     submitted = false;
     farmHouseDto?:FarmHouseDto
     farmhouses?: any[];
+    
     selectedFarmhouseId: any;
+    //Rule Code list
+    weatherRuleCodeValues?:any[];
+    wormCountRuleCodeValues?:any[];
+    treatMentRuleCodeValues?:any[];
+    waterConsumptionCodeValues?:any[];
 
     taskDto?:TaskDto;
 
@@ -33,6 +40,7 @@ export class AddEditComponent implements OnInit {
 
     constructor(
         private farmhouseService: FarmHouseService,
+        private ruleCodeService:RuleCodeService,
         private notesService:NotesService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -46,6 +54,10 @@ export class AddEditComponent implements OnInit {
         debugger;
         this.form = this.formBuilder.group({
             farmHouseId:['',Validators.required],
+            weatherCodeValueId:['',Validators.required],
+            wormCountCodeValueId:['',Validators.required],
+            treatmentCodeValueId:['',Validators.required],
+            waterConsumptionCodeValueId:['',Validators.required],
             //farmHouseName: ['', Validators.required],
             noteTitle: ['', Validators.required],
             noteType: ['', Validators.required],
@@ -55,6 +67,19 @@ export class AddEditComponent implements OnInit {
 
         this.farmhouseService.getAllByUserId(JSON.parse(this.user).userId)
             .subscribe(farmhouses => this.farmhouses = farmhouses);
+       
+        this.ruleCodeService.getByRuleCode("WEATHER")
+            .subscribe(weatherRuleCodeValues => this.weatherRuleCodeValues = weatherRuleCodeValues);
+
+        this.ruleCodeService.getByRuleCode("WORM_COUNT")
+            .subscribe(wormCountRuleCodeValues => this.wormCountRuleCodeValues = wormCountRuleCodeValues);
+        
+        this.ruleCodeService.getByRuleCode("TREATMENT")
+            .subscribe(treatMentRuleCodeValues => this.treatMentRuleCodeValues = treatMentRuleCodeValues);
+
+        this.ruleCodeService.getByRuleCode("WATER_CONSUMPTION_LEVEL")
+            .subscribe(waterConsumptionCodeValues => this.waterConsumptionCodeValues = waterConsumptionCodeValues);
+
 
         this.title = 'Add New Note';
         if (this.noteId) {
