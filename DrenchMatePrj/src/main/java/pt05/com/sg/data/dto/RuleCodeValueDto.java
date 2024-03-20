@@ -6,16 +6,17 @@ private Long ruleCodeValueId;
 	
 	private RuleCodeDto ruleCodeDto;
 	
+	private String parentRuleCode;
+	
 	private String code;
-	
-	
+
 	private String codeDesc;
 	
 	
 	private Long codeValue;
 	
 	
-	private Long remarks;
+	private String remarks;
 
 
 	public RuleCodeValueDto() {
@@ -74,13 +75,26 @@ private Long ruleCodeValueId;
 	}
 
 
-	public Long getRemarks() {
+	public String getRemarks() {
 		return remarks;
 	}
 
 
-	public void setRemarks(Long remarks) {
+	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+
+
+	public String getParentRuleCode() {
+		return parentRuleCode;
+	}
+
+
+	public void setParentRuleCode(String parentRuleCode) {
+		this.parentRuleCode = parentRuleCode;
+	}
+
+
+	
 	
 }

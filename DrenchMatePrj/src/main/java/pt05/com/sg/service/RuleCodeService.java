@@ -8,5 +8,7 @@ import pt05.com.sg.data.entity.RuleCode;
 public interface RuleCodeService {
 	
 	public List<RuleCodeDto> getList();
+	
+	public RuleCodeDto getRuleByCodeId(Long ruleCodeId);
 
 }

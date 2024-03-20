@@ -124,6 +124,35 @@ public NoteDto getTaskByTaskId(Long noteId) {
 		
 	}
 	
+public Map<String,String>  deleteNoteById(Long noteId){
+		
+		Optional<Note> noteOptional=this.noteRepository.findByNoteId(noteId);
+		String message="";
+		Map<String,String> responseMessage=new HashMap<String,String>();
+		try {
+			if(noteOptional.isPresent() && noteOptional!=null) {
+				
+				this.noteRepository.delete(noteOptional.get());
+				message="Deleted Noted Successfully";
+				responseMessage.put("status", "Success");
+				responseMessage.put("message",message);
+				
+			}else {
+				message="Note not exist to delete";
+				responseMessage.put("status", "Failed");
+				responseMessage.put("message",message);
+			}
+			
+		}catch(Exception e) {
+			responseMessage.put("status", "Failed");
+			message=e.getMessage();
+			responseMessage.put("message",e.getMessage());
+		}
+		
+		return responseMessage;
+	}
+	
+	
 	
 
 }

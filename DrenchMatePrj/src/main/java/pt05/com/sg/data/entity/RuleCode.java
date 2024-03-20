@@ -41,7 +41,7 @@ public class RuleCode extends Base{
 	private String remarks;
 	
 	@OneToMany(mappedBy = "ruleCode", cascade = CascadeType.ALL)
-    private List<RuleCodeValue> ruleCodeValueList=new ArrayList<>();
+    private List<RuleCodeValue> ruleCodeValue;
 	
 	@Version
 	@Column(name = "VerNo")
@@ -135,6 +135,16 @@ public class RuleCode extends Base{
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+
+	public List<RuleCodeValue> getRuleCodeValue() {
+		return ruleCodeValue;
+	}
+
+	public void setRuleCodeValue(List<RuleCodeValue> ruleCodeValue) {
+		this.ruleCodeValue = ruleCodeValue;
+	}
+
+	
 	
 	
 }

@@ -27,6 +27,8 @@ public class RuleCodeValue extends Base{
 	@GeneratedValue(generator="SEQ_RULE_CODE_VALUE_ID",strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="SEQ_RULE_CODE_VALUE_ID",sequenceName="SEQ_RULE_CODE_VALUE_ID", allocationSize=1)
 	@Column(name = "RuleCodeValueId")
+	
+	
 	private long ruleCodeValueId;
 	
 	@ManyToOne
@@ -43,7 +45,7 @@ public class RuleCodeValue extends Base{
 	private Long codeValue;
 	
 	@Column(name = "Remarks")
-	private Long remarks;
+	private String remarks;
 	
 	
 	@Version
@@ -107,11 +109,13 @@ public class RuleCodeValue extends Base{
 		this.codeValue = codeValue;
 	}
 
-	public Long getRemarks() {
+	
+
+	public String getRemarks() {
 		return remarks;
 	}
 
-	public void setRemarks(Long remarks) {
+	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
 
@@ -154,6 +158,8 @@ public class RuleCodeValue extends Base{
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+
+	
 
 	
 	

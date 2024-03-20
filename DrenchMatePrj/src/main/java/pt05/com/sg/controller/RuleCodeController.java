@@ -35,5 +35,16 @@ public class RuleCodeController {
 	}
 	
 	
+	@GetMapping("/dm/rules/{ruleCodeId}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public RuleCodeDto findNoteById(
+			@PathVariable("ruleCodeId") Long ruleCodeId){
+		log.info("Get RuleCode by ruleCodeId :"+ ruleCodeId);
+		return this.ruleCodeServiceImpl.getRuleByCodeId(ruleCodeId);
+		
+	
+	}
+	
+	
 	
 }
