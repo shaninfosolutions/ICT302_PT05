@@ -21,7 +21,7 @@
             <td>{{note.status}}</td>
             <td>{{note.remarks}}</td>
             <td style="white-space: nowrap">
-                <a routerLink="edit/{{note.noteId}}" class="btn btn-sm btn-primary me-1">Edit</a>
+                <a routerLink="edit/{{note.noteId}}" class="btn btn-sm btn-primary me-1">View</a>
                 <button (click)="deleteNote(note.noteId)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="note.isDeleting">
                     <span *ngIf="note.isDeleting" class="spinner-border spinner-border-sm"></span>
                     <span *ngIf="!note.isDeleting">Delete</span>

@@ -1,19 +1,18 @@
 ﻿<!-- nav -->
+<!--
+<div class="banner">
+    <img src="/assets/images/mu_logo.png" alt="Banner Image">
+</div> -->
+
 <nav class="navbar navbar-expand navbar-dark bg-dark px-3" *ngIf="user">
+
     <div class="navbar-nav">
         <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
-        <!--<a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a>
-        -->
         <a class="nav-item nav-link" routerLink="/farmhouses" routerLinkActive="active">Farm House</a>
-
         <a class="nav-item nav-link" routerLink="/tasks" routerLinkActive="active">Task</a>
-
         <a class="nav-item nav-link" routerLink="/notes" routerLinkActive="active">Note</a>
-
         <a class="nav-item nav-link" routerLink="/rules" routerLinkActive="active">Rule Code</a>
-        
         <a class="nav-item nav-link" routerLink="/user/{{user.userId}}" routerLinkActive="active">User Profile</a>
-        
         <button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
     </div>
 </nav>

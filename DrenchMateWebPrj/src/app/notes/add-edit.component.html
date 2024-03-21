@@ -71,7 +71,7 @@
                 <div class="mb-3 col">
                     <label class="form-label">Treatment</label>
                     <select formControlName="treatmentCodeValueId" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.treatmentCodeValueId.errors }"  (change)="onFarmhouseSelect()">
-                        <option *ngFor="let wormCountRuleCodeValue of wormCountRuleCodeValues" [value]="wormCountRuleCodeValue.ruleCodeValueId">{{ wormCountRuleCodeValue.codeDesc }}  </option>
+                        <option *ngFor="let treatMentRuleCodeValue of treatMentRuleCodeValues" [value]="treatMentRuleCodeValue.ruleCodeValueId">{{ treatMentRuleCodeValue.codeDesc }}  </option>
                     </select>
                 </div>
 
@@ -81,14 +81,15 @@
                         <option *ngFor="let waterConsumptionCodeValue of waterConsumptionCodeValues" [value]="waterConsumptionCodeValue.ruleCodeValueId">{{ waterConsumptionCodeValue.codeDesc }}  </option>
                     </select>
                 </div>
-
-                <div class="mb-3">
-                    <button [disabled]="submitting" class="btn btn-primary">
+                <div *ngIf="!noteId">
+                    <div class="mb-3">
+                        <button [disabled]="submitting" class="btn btn-primary">
                         <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
-                        Save
-                    </button>
-                    <a routerLink="/notes" class="btn btn-link">Cancel</a>
+                            Save</button>
+                        <a routerLink="/notes" class="btn btn-link">Cancel</a>
+                    </div>
                 </div>
+
             </form>
             <div *ngIf="loading" class="text-center m-5">
                 <span class="spinner-border spinner-border-lg align-center"></span>

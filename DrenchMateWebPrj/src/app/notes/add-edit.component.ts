@@ -33,6 +33,11 @@ export class AddEditComponent implements OnInit {
     treatMentRuleCodeValues?:any[];
     waterConsumptionCodeValues?:any[];
 
+    weatherCodeValueId?:string;
+    wormCountCodeValueId?:string;
+    treatmentCodeValueId?:string;
+    waterConsumptionCodeValueId?:string;
+
     taskDto?:TaskDto;
 
     user?:any;
@@ -84,7 +89,7 @@ export class AddEditComponent implements OnInit {
         this.title = 'Add New Note';
         if (this.noteId) {
             // edit mode
-            this.title = 'Edit Note';
+            this.title = 'View Note';
             this.loading = true;
             this.notesService.getById(this.noteId)
                 .pipe(first())
@@ -112,7 +117,7 @@ export class AddEditComponent implements OnInit {
         }
 
         this.loading = true;
-
+        debugger;
         if (this.noteId) {
             const  userId =JSON.parse(this.user).userId;
             const  lastUpdatedBy=JSON.parse(this.user).name;
