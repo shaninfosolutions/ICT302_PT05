@@ -26,7 +26,7 @@ import pt05.com.sg.data.repository.TaskRepository;
 import pt05.com.sg.service.impl.TaskServiceImpl;
 import pt05.com.sg.data.entity.Task;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "${spring.mvc.cors.allowed-origins}")
 @RestController
 @RequestMapping("api/v1")
 public class TaskController {

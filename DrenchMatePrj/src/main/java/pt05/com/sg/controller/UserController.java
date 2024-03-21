@@ -36,7 +36,7 @@ import pt05.com.sg.jwt.servcie.JwtService;
 import pt05.com.sg.service.impl.UserServiceImpl;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "${spring.mvc.cors.allowed-origins}")
 @RestController
 @RequestMapping("api/v1")
 public class UserController {

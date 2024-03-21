@@ -41,6 +41,10 @@ public class UserNoteRule extends Base{
 	@Column(name = "Remarks")
 	private String Remarks;
 	
+	@ManyToOne
+	@JoinColumn(name="RuleCodeValueId", nullable=false)
+	private RuleCodeValue ruleCodeValue;
+	
 	
 	@Version
 	@Column(name = "VerNo")
@@ -125,6 +129,14 @@ public class UserNoteRule extends Base{
 
 	public void setLastUpdatedDate(Date lastUpdatedDate) {
 		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public RuleCodeValue getRuleCodeValue() {
+		return ruleCodeValue;
+	}
+
+	public void setRuleCodeValue(RuleCodeValue ruleCodeValue) {
+		this.ruleCodeValue = ruleCodeValue;
 	}
 
 	public String getLastUpdatedBy() {

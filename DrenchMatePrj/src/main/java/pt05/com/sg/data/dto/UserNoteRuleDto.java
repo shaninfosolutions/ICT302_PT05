@@ -6,7 +6,7 @@ public class UserNoteRuleDto {
 	
 	private Long noteRuleId;
 	
-	private NoteDto noteDto;
+	private Long farmHouseId;
 	
 	
 	private Long ruleValue;
@@ -27,13 +27,6 @@ public class UserNoteRuleDto {
 		this.noteRuleId = noteRuleId;
 	}
 
-	public NoteDto getNoteDto() {
-		return noteDto;
-	}
-
-	public void setNoteDto(NoteDto noteDto) {
-		this.noteDto = noteDto;
-	}
 
 	public Long getRuleValue() {
 		return ruleValue;

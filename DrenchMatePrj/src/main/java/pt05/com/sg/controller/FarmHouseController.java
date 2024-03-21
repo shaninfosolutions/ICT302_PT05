@@ -27,7 +27,7 @@ import pt05.com.sg.data.entity.User;
 import pt05.com.sg.service.impl.FarmHouseServiceImpl;
 import pt05.com.sg.service.impl.UserServiceImpl;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "${spring.mvc.cors.allowed-origins}")
 @RestController
 @RequestMapping("api/v1")
 public class FarmHouseController {

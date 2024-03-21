@@ -24,7 +24,7 @@ import pt05.com.sg.data.dto.AnimalDto;
 import pt05.com.sg.data.dto.FarmHouseDto;
 import pt05.com.sg.service.impl.AnimalServiceImpl;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "${spring.mvc.cors.allowed-origins}")
 @RestController
 @RequestMapping("api/v1")
 public class AnimalController {

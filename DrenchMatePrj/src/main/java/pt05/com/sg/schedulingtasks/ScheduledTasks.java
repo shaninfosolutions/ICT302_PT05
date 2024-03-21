@@ -43,7 +43,7 @@ public class ScheduledTasks {
 	@Value("${notification.offset.days.to.notify}")
 	private  Long offsetDaysToNotify;
 	
-	//@Scheduled(cron = "${user.note.cron.expression}",scheduler = "mySchedulerUserNote")
+	@Scheduled(cron = "${user.note.cron.expression}",scheduler = "mySchedulerUserNote")
     public void performUserNoteTask() {
         try {
         	log.info("User Note Notification performed at {Entry}", LocalDateTime.now());
@@ -54,7 +54,7 @@ public class ScheduledTasks {
         }
     }
 	
-	//@Scheduled(cron = "${task.cron.expression}",scheduler = "mySchedulerTask")
+	@Scheduled(cron = "${task.cron.expression}",scheduler = "mySchedulerTask")
     public void performTask() {
         try {
         	log.info("Task performed at {Entry}", LocalDateTime.now());

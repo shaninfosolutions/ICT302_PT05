@@ -18,7 +18,7 @@ import pt05.com.sg.data.dto.RuleCodeDto;
 import pt05.com.sg.service.impl.NoteServiceImpl;
 import pt05.com.sg.service.impl.RuleCodeServiceImpl;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "${spring.mvc.cors.allowed-origins}")
 @RestController
 @RequestMapping("api/v1")
 public class RuleCodeController {

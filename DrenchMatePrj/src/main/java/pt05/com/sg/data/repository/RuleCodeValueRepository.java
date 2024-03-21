@@ -17,6 +17,8 @@ public interface RuleCodeValueRepository extends CrudRepository<RuleCodeValue, L
 	 
 	 @Query("SELECT ruleCodeValue FROM RuleCodeValue ruleCodeValue WHERE ruleCodeValue.ruleCode.code=?1")
 	 Optional<List<RuleCodeValue>> findCodeValueByCode(String ruleCode);
+	  
+	 Optional<RuleCodeValue> findByRuleCodeValueId(Long ruleCodeValueId);
 	 
 
 }

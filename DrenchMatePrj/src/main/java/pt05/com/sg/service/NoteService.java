@@ -12,5 +12,7 @@ public interface NoteService {
 	public NoteDto getTaskByTaskId(Long noteId);
 	
 	public Map<String,String>  deleteNoteById(Long noteId);
+	
+	public Map<String,String> addOrUpdate(NoteDto noteDto);
 
 }

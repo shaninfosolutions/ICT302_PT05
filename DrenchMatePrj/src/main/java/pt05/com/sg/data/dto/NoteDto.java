@@ -9,11 +9,11 @@ public class NoteDto {
 	
 	private FarmHouseDto farmHouseDto;
 	
-	private String farmHouseId;
+	private Long farmHouseId;
 	
 	private String farmHouseName;
 	
-	private String userId;
+	private Long userId;
 	
 	private String noteTitle;
 	
@@ -25,6 +25,14 @@ public class NoteDto {
 	
 
 	private String remarks;
+	
+	private Long weatherCodeValueId;
+
+	private Long wormCountCodeValueId;
+	
+	private Long treatmentCodeValueId;
+	
+	private Long waterConsumptionCodeValueId;
 
 
 	public NoteDto() {
@@ -103,22 +111,24 @@ public class NoteDto {
 	}
 
 
-	public String getFarmHouseId() {
+	
+
+	public Long getFarmHouseId() {
 		return farmHouseId;
 	}
 
 
-	public void setFarmHouseId(String farmHouseId) {
+	public void setFarmHouseId(Long farmHouseId) {
 		this.farmHouseId = farmHouseId;
 	}
 
 
-	public String getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
 
-	public void setUserId(String userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -131,7 +141,48 @@ public class NoteDto {
 	public void setFarmHouseName(String farmHouseName) {
 		this.farmHouseName = farmHouseName;
 	}
-	
+
+
+	public Long getWeatherCodeValueId() {
+		return weatherCodeValueId;
+	}
+
+
+	public void setWeatherCodeValueId(Long weatherCodeValueId) {
+		this.weatherCodeValueId = weatherCodeValueId;
+	}
+
+
+	public Long getWormCountCodeValueId() {
+		return wormCountCodeValueId;
+	}
+
+
+	public void setWormCountCodeValueId(Long wormCountCodeValueId) {
+		this.wormCountCodeValueId = wormCountCodeValueId;
+	}
+
+
+	public Long getTreatmentCodeValueId() {
+		return treatmentCodeValueId;
+	}
+
+
+	public void setTreatmentCodeValueId(Long treatmentCodeValueId) {
+		this.treatmentCodeValueId = treatmentCodeValueId;
+	}
+
+
+	public Long getWaterConsumptionCodeValueId() {
+		return waterConsumptionCodeValueId;
+	}
+
+
+	public void setWaterConsumptionCodeValueId(Long waterConsumptionCodeValueId) {
+		this.waterConsumptionCodeValueId = waterConsumptionCodeValueId;
+	}
+
+
 	
 	
 	

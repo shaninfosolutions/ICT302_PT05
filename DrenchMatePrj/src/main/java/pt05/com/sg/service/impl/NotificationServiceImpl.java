@@ -66,7 +66,7 @@ public class NotificationServiceImpl implements NotificationService{
 	public void processTaskNotification() {
 		
 		try {
-        	log.info("Notification Service Process Begin:");
+        	log.info("Notification Service Process Begin:{TASK}");
         	//Long bestScore=this.notificationJdbcImpl.findNotiRuleScoreCard();
         	List<EligibleUsersToNotifyDto> list=this.notificationJdbcImpl.findEligibleTaskNotify(
         																	offsetOneDay);
@@ -147,13 +147,22 @@ public class NotificationServiceImpl implements NotificationService{
         			
         		log.info("Trigger Notification Begin:"+dto.getUserId()+":FarmHouseid:"+dto.getFarmHouseId()+
         				":Best Score:"+bestScore+":User Score:"+notiScoreCard);
-        		if(notiScoreCard!=null && notiScoreCard< bestScore) {
-        		
-        			String message="Dear "+dto.getName()+"\n"
-        					+ "This is alert notification to inform you that your farmhouse is in danger.\n"
-        					+ "Please look for the consultant to drench you sheep.\n"
-        					+ "Thanks. "
-        					+ "(System auto generate, no reply required)";
+        		if(notiScoreCard!=null ) {
+        			String message="";
+        			
+        			if(notiScoreCard< bestScore) {
+        				message="Dear "+dto.getName()+"\n"
+            					+ "This is alert notification to inform you that your farmhouse is in danger.\n"
+            					+ "Please look for the consultant to drench you sheep.\n"
+            					+ "Thanks. "
+            					+ "(System auto generate, no reply required)";
+        			}else {
+        				message="Dear "+dto.getName()+"\n"
+            					+ "This is alert notification to inform you that your farmhouse is normal.\n"
+            					+ "Thanks. "
+            					+ "(System auto generate, no reply required)";
+        			}
+        			 
         			String subject="Drench Mate - Notification as of "+new Date();
         			
         			/*Trigger point to Send Email Notification*/

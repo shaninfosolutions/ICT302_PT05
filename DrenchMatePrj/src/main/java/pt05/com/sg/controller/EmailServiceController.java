@@ -21,7 +21,7 @@ import pt05.com.sg.data.dto.SendMailDto;
 import pt05.com.sg.data.dto.response.EmailRS;
 import pt05.com.sg.service.impl.EmailServiceImpl;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "${spring.mvc.cors.allowed-origins}")
 @RestController
 @RequestMapping("api/v1")
 public class EmailServiceController {

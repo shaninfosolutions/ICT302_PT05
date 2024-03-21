@@ -1,7 +1,9 @@
 package pt05.com.sg.data.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -27,8 +30,6 @@ public class RuleCodeValue extends Base{
 	@GeneratedValue(generator="SEQ_RULE_CODE_VALUE_ID",strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name="SEQ_RULE_CODE_VALUE_ID",sequenceName="SEQ_RULE_CODE_VALUE_ID", allocationSize=1)
 	@Column(name = "RuleCodeValueId")
-	
-	
 	private long ruleCodeValueId;
 	
 	@ManyToOne
@@ -46,6 +47,9 @@ public class RuleCodeValue extends Base{
 	
 	@Column(name = "Remarks")
 	private String remarks;
+	
+	@OneToMany(mappedBy = "ruleCodeValue", cascade = CascadeType.ALL)
+    private List<UserNoteRule> userNoteRules;
 	
 	
 	@Version
@@ -157,6 +161,14 @@ public class RuleCodeValue extends Base{
 
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
+	}
+
+	public List<UserNoteRule> getUserNoteRules() {
+		return userNoteRules;
+	}
+
+	public void setUserNoteRules(List<UserNoteRule> userNoteRules) {
+		this.userNoteRules = userNoteRules;
 	}
 
 	
