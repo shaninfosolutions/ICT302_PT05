@@ -15,6 +15,7 @@ const noteModule = () => import('./notes/notes.module').then(x => x.NotesModule)
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
     { path: 'farmhouses', loadChildren: farmHouseModule, canActivate: [AuthGuard] },
     { path: 'tasks', loadChildren: taskModule, canActivate: [AuthGuard] },

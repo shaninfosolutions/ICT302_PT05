@@ -52,6 +52,7 @@ export class AddEditComponent implements OnInit {
             startDate: ['', Validators.required],
             endDate: ['', Validators.required],
             remarks: ['', Validators.required],
+            status: ['', Validators.required],
         });
 
         this.farmhouseService.getAllByUserId(JSON.parse(this.user).userId)

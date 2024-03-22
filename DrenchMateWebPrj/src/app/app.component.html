@@ -1,11 +1,13 @@
 ﻿<!-- nav -->
 <!--
 <div class="banner">
-    <img src="/assets/images/mu_logo.png" alt="Banner Image">
+    <img src="/assets/images/mu_logo_1.png" alt="Banner Image" width="200">
 </div> -->
 
 <nav class="navbar navbar-expand navbar-dark bg-dark px-3" *ngIf="user">
-
+    <div class="banner">
+        <img src="/assets/images/mu_logo_1.png" alt="Banner Image" width="200">
+    </div>
     <div class="navbar-nav">
         <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
         <a class="nav-item nav-link" routerLink="/farmhouses" routerLinkActive="active">Farm House</a>
@@ -22,8 +24,12 @@
     <router-outlet></router-outlet>
 </div>
 
+
+
 <footer class="footer">
-    <div class="container">
+   
+    <div class="navbar-nav">
         <span class="text-muted">All Rights Reserved 2024 @ DrenchMate.com @PT03-Murdoch Uni</span>
     </div>
-</footer>
+   
+</footer> 

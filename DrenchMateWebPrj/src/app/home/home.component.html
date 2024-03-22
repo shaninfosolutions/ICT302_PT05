@@ -1,7 +1,117 @@
 ﻿<div class="p-4">
     <div class="container">
         <h1>Hi {{user?.name}}!</h1>
-        <p>You're logged in with Angular 14!!</p>
-        <p><a routerLink="/users">Manage Users</a></p>
+        <p>You're logged in Drench Mate Application</p>
+       <!-- <p><a routerLink="/users">Manage Users</a></p> -->
+        <div class="card-body">
+        <h5>Notification - User Note</h5>
+        <div class="chart-container ">
+            <canvas  id="UserNoteNotification" >{{ chartNotiNote }}</canvas>
+        </div>
+        <h5> Notification - User Note Detail</h5>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10%">Farm House Name</th>
+                    <th style="width: 10%">Note Title</th>
+                    <th style="width: 10%">Date of Notification</th>
+                    <th style="width: 5%">Score</th>
+                    <th style="width: 50%">Message</th>
+                    <th style="width: 10%">Status</th>
+                    <th style="width: 10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let notinotesummary of notinotesummarys">
+                    <td>{{notinotesummary.farmHouseName}}</td>
+                    <td>{{notinotesummary.noteTitle}}</td>
+                    <td>{{notinotesummary.dateOfNotification}}</td>
+                    <td>{{notinotesummary.score}}</td>
+                    <td>{{notinotesummary.message}}</td>
+                    <td>  
+                    <div class="mb-3 col">
+                        <input type="text" [(ngModel)]="notinotesummary.status">
+                    </div>
+                        
+                    </td>
+                  
+                    <td style="white-space: nowrap">
+                      <!--  <a routerLink="edit/{{notinotesummary.notificationId}}" class="btn btn-sm btn-primary me-1">Update</a>
+                        -->
+                        <button (click)="updateNoti(notinotesummary)" class="btn btn-sm btn-primary me-1" [disabled]="notinotesummary.isDeleting">
+                            <span *ngIf="notinotesummary.isDeleting" class="spinner-border spinner-border-sm"></span>
+                            <span *ngIf="!notinotesummary.isDeleting">Update</span>
+                        </button>
+                    </td>
+                </tr>
+                
+                <tr *ngIf="!notinotesummarys">
+                    <td colspan="7" class="text-center">
+                       <span class="spinner-border spinner-border-lg align-center"></span> 
+                        <p>*No Records Found</p>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
+
+    <div class="card-body">
+            <h5>Notification - Tasks</h5>
+        <div class="chart-container">
+            <canvas  id="TaskNotification" >{{ charNotiTask }}</canvas>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10%">Farm House Name</th>
+                    <th style="width: 10%">Task Title</th>
+                    <th style="width: 10%">Date of Notification</th>
+                    <th style="width: 5%">Start Date</th>
+                    <th style="width: 10%">Is Due</th>
+                    <th style="width: 50%">Message</th>
+                    <th style="width: 10%">Status</th>
+                    <th style="width: 10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let notitasksummary of notitasksummarys">
+                    <td>{{notitasksummary.farmHouseName}}</td>
+                    <td>{{notitasksummary.taskTitle}}</td>
+                    <td>{{notitasksummary.dateOfNotification}}</td>
+                    <td>{{notitasksummary.startDate}}</td>
+                    <td>{{notitasksummary.labelDue}}</td>
+                    <td>{{notitasksummary.message}}</td>
+                    <td>  
+                    <div class="mb-3 col">
+                        <input type="text" [(ngModel)]="notitasksummary.status">
+                    </div>
+                        
+                    </td>
+                  
+                    <td style="white-space: nowrap">
+                      <!--  <a routerLink="edit/{{notinotesummary.notificationId}}" class="btn btn-sm btn-primary me-1">Update</a>
+                        -->
+                        <button (click)="updateNotiTask(notitasksummary)" class="btn btn-sm btn-primary me-1" [disabled]="notitasksummary.isDeleting">
+                            <span *ngIf="notitasksummary.isDeleting" class="spinner-border spinner-border-sm"></span>
+                            <span *ngIf="!notitasksummary.isDeleting">Update</span>
+                        </button>
+                    </td>
+                </tr>
+                
+                <tr *ngIf="!notitasksummarys">
+                    <td colspan="8" class="text-center">
+                       <span class="spinner-border spinner-border-lg align-center"></span> 
+                        <p>*No Records Found</p>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+        
+    
 </div>

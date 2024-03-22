@@ -8,6 +8,8 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+
 
 
 @NgModule({
@@ -15,7 +17,8 @@ import { HomeComponent } from './home';
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule
+        AppRoutingModule,
+        FormsModule 
     ],
     declarations: [
         AppComponent,
