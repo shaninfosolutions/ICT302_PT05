@@ -48,6 +48,9 @@ public class Task extends Base{
 	@Column(name = "EndDate")
 	private Date endDate;
 	
+	@Column(name = "Status")
+	private String status;
+	
 	@Column(name = "Remarks")
 	private String remarks;
 	
@@ -175,6 +178,16 @@ public class Task extends Base{
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
 
 
 }

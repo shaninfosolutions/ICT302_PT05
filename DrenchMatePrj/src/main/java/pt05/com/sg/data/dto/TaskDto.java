@@ -23,6 +23,8 @@ public class TaskDto {
 	private String endDate;
 	
 	private String remarks;
+	
+	private String status;
 
 	public TaskDto() {
 		super();
@@ -117,5 +119,15 @@ public class TaskDto {
 		this.farmHouseName = farmHouseName;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	
+	
 
 }

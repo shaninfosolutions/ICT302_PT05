@@ -51,6 +51,13 @@ public class Notification extends Base{
 	@Column(name = "DateOfNotification")
 	private Date dateOfNotification;
 	
+	@Column(name = "NoteId")
+	private Long noteId;
+	
+	@Column(name = "TaskId")
+	private Long taskId;
+	
+	
 	
 	@Version
 	@Column(name = "VerNo")
@@ -179,4 +186,24 @@ public class Notification extends Base{
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
+	
+	public Long getTaskId() {
+		return taskId;
+	}
+
+	
+
+	public void setTaskId(Long taskId) {
+		this.taskId = taskId;
+	}
+
+	public Long getNoteId() {
+		return noteId;
+	}
+
+	public void setNoteId(Long noteId) {
+		this.noteId = noteId;
+	}
+
+	
 }

@@ -55,6 +55,7 @@ public class TaskServiceImpl implements TaskService{
 					dto.setFarmHouseName(t.getFarmHouse().getFarmHouseName());
 					dto.setTaskTitle(t.getTaskTitle());
 					dto.setTaskType(t.getTaskType());
+					dto.setStatus(t.getStatus());
 					dto.setRemarks(t.getRemarks());
 					dto.setFarmHouseId(t.getFarmHouse().getFarmHouseId());
 					dto.setUserId(t.getUser().getUserId());
@@ -119,6 +120,7 @@ public class TaskServiceImpl implements TaskService{
 			taskDb.setLastUpdatedBy(userDb.getName());
 			taskDb.setLastUpdatedDate(new Date());
 			taskDb.setRemarks(task.getRemarks());
+			taskDb.setStatus(task.getStatus());
 			
 			Task saveTask=this.taskRepository.save(taskDb);
 			
@@ -129,7 +131,7 @@ public class TaskServiceImpl implements TaskService{
 			}
 		
 			
-		}else if (userOptional.isPresent() && userOptional.get()!=null && task.getTaskId()==null && farmHouseOptional.get()!=null){
+		}else if (userOptional.isPresent() && userOptional.get()!=null && task.getTaskId()!=null && farmHouseOptional.get()!=null){
 			
 			Task taskDb=this.taskRepository.findByTaskId(task.getTaskId()).get();
 			if(taskDb!=null) {
@@ -140,6 +142,7 @@ public class TaskServiceImpl implements TaskService{
 				taskDb.setTaskTitle(task.getTaskTitle());
 				taskDb.setStartDate(TaskHelper.stringToDateDDMMMYYYY(task.getStartDate()));
 				taskDb.setEndDate(TaskHelper.stringToDateDDMMMYYYY(task.getEndDate()));
+				taskDb.setStatus(task.getStatus());
 				taskDb.setRemarks(task.getRemarks());
 				taskDb.setLastUpdatedDate(new Date());
 				taskDb.setLastUpdatedBy(userDb.getName());

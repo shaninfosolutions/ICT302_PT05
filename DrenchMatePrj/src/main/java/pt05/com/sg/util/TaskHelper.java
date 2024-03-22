@@ -23,6 +23,7 @@ public class TaskHelper {
 		dto.setTaskTitle(t.getTaskTitle());
 		dto.setTaskType(t.getTaskType());
 		dto.setRemarks(t.getRemarks());
+		dto.setStatus(t.getStatus());
 		dto.setFarmHouseId(t.getFarmHouse().getFarmHouseId());
 		dto.setUserId(t.getUser().getUserId());
 		
