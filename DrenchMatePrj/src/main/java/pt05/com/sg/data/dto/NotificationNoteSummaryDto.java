@@ -14,6 +14,8 @@ public class NotificationNoteSummaryDto {
 	
 	private String notitype;
 	
+	private String labelNotiValue;
+	
 	private String status;
 	
 	private Long score;
@@ -107,6 +109,14 @@ public class NotificationNoteSummaryDto {
 
 	public void setDateOfNotification(String dateOfNotification) {
 		this.dateOfNotification = dateOfNotification;
+	}
+
+	public String getLabelNotiValue() {
+		return labelNotiValue;
+	}
+
+	public void setLabelNotiValue(String labelNotiValue) {
+		this.labelNotiValue = labelNotiValue;
 	}
 	
 

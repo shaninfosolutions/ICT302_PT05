@@ -49,7 +49,7 @@ public class NotificationJdbcImpl implements NotificationJdbc {
 	        + "FROM TB_USER U, TB_TASK TASK, TB_NOTIFICATION_SETTING NOTISETTING  \r\n"
 	        + "WHERE TASK.USERID = U.USERID AND NOTISETTING.USERID=U.USERID AND NOTISETTING.TORECEIVENOTIFICATION='Y' AND NOTISETTING.USERID=U.USERID  \r\n"
 	       // + "AND TO_NUMBER(TO_CHAR(TASK.StartDate ,'YYYYMMDD')) <= TO_NUMBER(TO_CHAR(SYSDATE - ?,'YYYYMMDD'))  \r\n"
-	        + "AND (TO_NUMBER(TO_CHAR(SYSDATE - NOTISETTING.NOOFDAYS,'YYYYMMDD'))  <= TO_NUMBER(TO_CHAR(TASK.StartDate,'YYYYMMDD')) "
+	        + "AND (TO_NUMBER(TO_CHAR(SYSDATE - NOTISETTING.NOOFDAYS,'YYYYMMDD'))  = TO_NUMBER(TO_CHAR(TASK.StartDate,'YYYYMMDD')) "
 	        + "or TO_NUMBER(TO_CHAR(SYSDATE - ?,'YYYYMMDD')) =TO_NUMBER(TO_CHAR(TASK.StartDate,'YYYYMMDD')))  \r\n"
 	        + "AND NOT EXISTS (SELECT 1 FROM TB_NOTIFICATION NOTI  \r\n"
 	        + "WHERE NOTI.USERID = U.USERID AND NOTI.FARMHOUSEID= TASK.FARMHOUSEID  \r\n"
@@ -74,7 +74,7 @@ public class NotificationJdbcImpl implements NotificationJdbc {
 			"WHERE NOTE.NOTEID = USERNOTE.NOTEID " +
 			"AND NOTE.USERID = U.USERID AND NOTISETTING.TORECEIVENOTIFICATION='Y' AND NOTISETTING.USERID=U.USERID " +
 			"AND TO_NUMBER(TO_CHAR(NOTE.CREATEDDATE, 'YYYYMMDD')) <= TO_NUMBER(TO_CHAR(SYSDATE - ?, 'YYYYMMDD')) " +
-			"AND TO_NUMBER(TO_CHAR(NOTE.CREATEDDATE, 'YYYYMMDD')) >= TO_NUMBER(TO_CHAR(SYSDATE - NOTISETTING.NOOFDAYS, 'YYYYMMDD')) " +
+			"AND TO_NUMBER(TO_CHAR(NOTE.CREATEDDATE, 'YYYYMMDD')) >= TO_NUMBER(TO_CHAR(SYSDATE - (NOTISETTING.NOOFDAYS+1), 'YYYYMMDD')) " +
 			"AND U.USERID = ? AND NOTE.FARMHOUSEID = ? " +
 			"AND NOT EXISTS (SELECT 1 FROM TB_NOTIFICATION NOTI " +
 			"WHERE NOTI.USERID = U.USERID AND NOTI.FARMHOUSEID = NOTE.FARMHOUSEID " +
@@ -106,8 +106,8 @@ public class NotificationJdbcImpl implements NotificationJdbc {
 		        + "case when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =0 then 'S3'\r\n"
 		        + "when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =1 then 'S2'\r\n"
 		        + "else 'S1' end as labelNotiValue,\r\n"
-		        + "case when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =0 then 'yellow'\r\n"
-		        + "when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =1 then 'green'\r\n"
+		        + "case when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =0 then 'green'\r\n"
+		        + "when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =1 then 'orange'\r\n"
 		        + "else 'red' end as backgroundColor,\r\n"
 		        + "noti.* from tb_notification noti where noti.userid=? and noti.notitype=?"
 		        + "and noti.status='OPEN' ) tt group by labelNotiValue,tt.backgroundColor ",
@@ -124,8 +124,8 @@ public class NotificationJdbcImpl implements NotificationJdbc {
 		        + "(select case when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(task.STARTDATE,'YYYYMMDD')) <0 then 'DUE'\r\n"
 		        + "when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(task.STARTDATE,'YYYYMMDD')) =0 then 'ON TIME'\r\n"
 		        + "else 'OVER DUE' end as labelNotiValue,\r\n"
-		        + "case when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(task.STARTDATE,'YYYYMMDD')) <0 then 'yellow'\r\n"
-		        + "when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(task.STARTDATE,'YYYYMMDD')) =0 then 'green'\r\n"
+		        + "case when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(task.STARTDATE,'YYYYMMDD')) <0 then 'green'\r\n"
+		        + "when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(task.STARTDATE,'YYYYMMDD')) =0 then 'orange'\r\n"
 		        + "else 'red' end as backgroundColor,\r\n"
 		        + "noti.* from tb_notification noti \r\n"
 		        + "inner join tb_task task on task.taskid=noti.taskid where noti.userid=? and noti.notitype=? \r\n"
@@ -146,6 +146,9 @@ public class NotificationJdbcImpl implements NotificationJdbc {
 		        + "n.notetitle,\r\n"
 		        + "noti.message,\r\n"
 		        + "noti.notitype,\r\n"
+		        +"case when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =0 then 'S3'\r\n"
+		        + "when TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDD')) - TO_NUMBER(TO_CHAR(NOTI.DATEOFNOTIFICATION,'YYYYMMDD')) =1 then 'S2'\r\n"
+		        + "else 'S1' end as labelNotiValue,"
 		        + "noti.status,\r\n"
 		        + "(select sum(rulevalue) from tb_user_note_rule noterule where noterule.noteid=n.noteid) as score,\r\n"
 		        + "noti.remarks,\r\n"

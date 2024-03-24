@@ -38,7 +38,7 @@ public class NotificationServiceImpl implements NotificationService{
 	
 	private final String COLOR_RED="red";
 	
-	private final String COLOR_YELLOW="yellow";
+	private final String COLOR_ORANGE="orange";
 	
 	private final String COLOR_GREEN="green";
 	
@@ -349,9 +349,8 @@ public Map<String,String> addOrUpdateNotiNote(NotificationNoteSummaryDto notiTas
 			 notiValue.add(String.valueOf(VALUE_ZERO));
 			 notiValue.add(String.valueOf(VALUE_ZERO));
 			 
-			 
-			 backgroundColor.add(COLOR_YELLOW);
 			 backgroundColor.add(COLOR_GREEN);
+			 backgroundColor.add(COLOR_ORANGE);
 			 backgroundColor.add(COLOR_RED);
 			 
 			
@@ -372,12 +371,12 @@ public Map<String,String> addOrUpdateNotiNote(NotificationNoteSummaryDto notiTas
 			if(!labelNotiValue.contains(SEVERITY_LEVEL_1)) {
 				 labelNotiValue.add(SEVERITY_LEVEL_1);
 				 notiValue.add(String.valueOf(VALUE_ZERO));
-				 backgroundColor.add(COLOR_YELLOW);
+				 backgroundColor.add(COLOR_GREEN);
 			} 
 			if(!labelNotiValue.contains(SEVERITY_LEVEL_2)){
 				 labelNotiValue.add(SEVERITY_LEVEL_2);
 				 notiValue.add(String.valueOf(VALUE_ZERO));
-				 backgroundColor.add(COLOR_GREEN);
+				 backgroundColor.add(COLOR_ORANGE);
 			}
 			
 			if(!labelNotiValue.contains(SEVERITY_LEVEL_3)) {
@@ -417,9 +416,8 @@ public Map<String,String> addOrUpdateNotiNote(NotificationNoteSummaryDto notiTas
 			 notiValue.add(String.valueOf(VALUE_ZERO));
 			 notiValue.add(String.valueOf(VALUE_ZERO));
 			 
-			 
-			 backgroundColor.add(COLOR_YELLOW);
 			 backgroundColor.add(COLOR_GREEN);
+			 backgroundColor.add(COLOR_ORANGE);
 			 backgroundColor.add(COLOR_RED);
 			
 		}else {
@@ -437,12 +435,12 @@ public Map<String,String> addOrUpdateNotiNote(NotificationNoteSummaryDto notiTas
 			if(!labelNotiValue.contains(TASK_DUE)) {
 				 labelNotiValue.add(TASK_DUE);
 				 notiValue.add(String.valueOf(VALUE_ZERO));
-				 backgroundColor.add(COLOR_YELLOW);
+				 backgroundColor.add(COLOR_GREEN);
 			} 
 			if(!labelNotiValue.contains(TASK_ONTIME)){
 				 labelNotiValue.add(TASK_ONTIME);
 				 notiValue.add(String.valueOf(VALUE_ZERO));
-				 backgroundColor.add(COLOR_GREEN);
+				 backgroundColor.add(COLOR_ORANGE);
 			}
 			
 			if(!labelNotiValue.contains(TASK_OVER_DUE)) {
