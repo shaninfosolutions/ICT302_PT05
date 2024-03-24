@@ -19,7 +19,7 @@ export class AddEditComponent implements OnInit {
     submitting = false;
     submitted = false;
     farmHouseDto?:FarmHouseDto
-    //ruleCodeValueList?: any[];
+    ruleCodeValues?: any[];
     selectedFarmhouseId: any;
 
     taskDto?:TaskDto;
@@ -62,6 +62,7 @@ export class AddEditComponent implements OnInit {
                 .pipe(first())
                 .subscribe(x => {
                     this.form.patchValue(x);
+                    this.ruleCodeValues=x.ruleCodeValueList
                     this.loading = false;
                 });
         }
@@ -135,7 +136,7 @@ export class AddEditComponent implements OnInit {
        // this.farmHouseId=this.form.get('farmHouseId')?.value;
     }
 
-    deleteRule(id: string){
+    updateRule(id: string){
 
     }
    

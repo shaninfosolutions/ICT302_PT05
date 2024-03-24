@@ -13,8 +13,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th style="width: 10%">Severity Level</th>
                     <th style="width: 10%">Farm House Name</th>
-                    <th style="width: 10%">Note Title</th>
+                    <!--<th style="width: 10%">Note Title</th> -->
                     <th style="width: 10%">Date of Notification</th>
                     <th style="width: 5%">Score</th>
                     <th style="width: 50%">Message</th>
@@ -24,8 +25,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let notinotesummary of notinotesummarys">
+                    
+                    <td [ngStyle]="{ 'color': getColorForValue(notinotesummary.labelNotiValue) }">{{ notinotesummary.labelNotiValue }}</td>
                     <td>{{notinotesummary.farmHouseName}}</td>
-                    <td>{{notinotesummary.noteTitle}}</td>
+                    <!--<td>{{notinotesummary.noteTitle}}</td> -->
                     <td>{{notinotesummary.dateOfNotification}}</td>
                     <td>{{notinotesummary.score}}</td>
                     <td>{{notinotesummary.message}}</td>
@@ -47,7 +50,7 @@
                 </tr>
                 
                 <tr *ngIf="!notinotesummarys">
-                    <td colspan="7" class="text-center">
+                    <td colspan="8" class="text-center">
                        <span class="spinner-border spinner-border-lg align-center"></span> 
                         <p>*No Records Found</p>
                     </td>
@@ -82,7 +85,8 @@
                     <td>{{notitasksummary.taskTitle}}</td>
                     <td>{{notitasksummary.dateOfNotification}}</td>
                     <td>{{notitasksummary.startDate}}</td>
-                    <td>{{notitasksummary.labelDue}}</td>
+                    <td [ngStyle]="{ 'color': getColorForValueTask(notitasksummary.labelDue) }">{{ notitasksummary.labelDue }}</td>
+                   
                     <td>{{notitasksummary.message}}</td>
                     <td>  
                     <div class="mb-3 col">

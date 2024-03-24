@@ -45,8 +45,21 @@
                 </div>
 
 
-            <h5>Rule Code Value</h5>
-            <a routerLink="add" class="btn btn-sm btn-success mb-2" >Add Rule Code Value</a>
+            
+
+
+            </form>
+            <div *ngIf="loading" class="text-center m-5">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </div>
+
+        </div>
+</div>
+
+<div class="p-4">
+    <div class="container">
+<h5>Rule Code Value</h5>
+           <!-- <a routerLink="add" class="btn btn-sm btn-success mb-2" >Add Rule Code Value</a> -->
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -59,17 +72,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let ruleCode of form.get('ruleCodeValueList')?.value let i = index">
+                    <tr *ngFor="let ruleCode of ruleCodeValues">
                         <td>{{ruleCode.ruleCodeValueId}}</td>
                         <td>{{ruleCode.code}}</td>
                         <td>{{ruleCode.codeDesc}}</td>
-                        <td>{{ruleCode.codeValue}} </td>
+                        <td>{{ruleCode.codeValue}} </td> 
+                        <td>  
+                            <div class="mb-3 col">
+                                <input type="text" [(ngModel)]="ruleCode.codeValue">
+                            </div>
+                                
+                            </td>
                         <td>{{ruleCode.remarks}}</td>
                         <td style="white-space: nowrap">
-                            <a routerLink="edit/{{ruleCode.ruleCodeValueId}}" class="btn btn-sm btn-primary me-1">Edit</a>
-                            <button (click)="deleteRule(ruleCode.ruleCodeValueId)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="ruleCode.isDeleting">
+                           <!-- <a routerLink="edit/{{ruleCode.ruleCodeValueId}}" class="btn btn-sm btn-primary me-1">Edit</a>
+                           -->
+                            <button (click)="updateRule(ruleCode.ruleCodeValueId)" class="btn btn-sm btn-primary me-1" [disabled]="ruleCode.isDeleting">
                                 <span *ngIf="ruleCode.isDeleting" class="spinner-border spinner-border-sm"></span>
-                                <span *ngIf="!ruleCode.isDeleting">Delete</span>
+                                <span *ngIf="!ruleCode.isDeleting">Update</span>
                             </button>
                         </td>
 
@@ -83,12 +103,4 @@
                     </tr>
                 </tbody>
             </table>
-
-
-            </form>
-            <div *ngIf="loading" class="text-center m-5">
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            </div>
-
-        </div>
-</div>
+ </div></div>

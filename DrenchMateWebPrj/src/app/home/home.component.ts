@@ -173,4 +173,32 @@ export class HomeComponent implements OnInit {
 
   }
 
+  getColorForValue(value: string): string {
+    switch(value) {
+        case 'S1':
+            return 'red';
+        case 'S2':
+            return 'orange';
+        case 'S3':
+            return 'green';
+        // Add more cases as needed for other values
+        default:
+            return 'black'; // Default color if value doesn't match any case
+    }
+}
+
+getColorForValueTask(value: string): string {
+  switch(value) {
+      case 'OVER DUE':
+          return 'red';
+      case 'ON TIME':
+          return 'orange';
+      case 'DUE':
+          return 'green';
+      // Add more cases as needed for other values
+      default:
+          return 'black'; // Default color if value doesn't match any case
+  }
+}
+
 }
