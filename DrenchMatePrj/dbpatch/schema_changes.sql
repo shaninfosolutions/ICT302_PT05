@@ -262,6 +262,8 @@ CREATE SEQUENCE SEQ_NOTIFICATION_ID START WITH 1000 INCREMENT BY 1 NOCACHE NOCYC
 CREATE TABLE TB_NOTIFICATION(
 	NotificationId 		Number(19)			DEFAULT SEQ_NOTIFICATION_ID.nextval,
 	UserId 				Number(19)			NOT NULL,
+	NoteId				Number(19)		 	NULL,
+	TaskId				Number(19)			 NULL,
 	Message				Varchar2(255) 		 	NULL,
 	NotiType			Varchar2(255) 		 	NULL,
 	Status				Varchar2(255) 		 	NULL, -- Open -> Active /Closed 
