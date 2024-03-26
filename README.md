@@ -6,7 +6,7 @@ https://nodejs.org/en/download
 Import the Angular Web Project
 =================================
 #to install the npm package and its dependency
-npm install 
+>npm install 
 
 Build the Package
 ===================
