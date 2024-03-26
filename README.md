@@ -10,7 +10,7 @@ Import the Angular Web Project
 
 Build the Package
 ===================
-ng build #the package shall be in the ./dist/ folder 
+>ng build  #the package shall be in the ./dist/ folder 
 
 Set up the Http Apache Web
 ===============================
