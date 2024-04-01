@@ -56,7 +56,7 @@ If you have any questions or need assistance, feel free to reach out.
 
 Best regards,
 TeamPT05
-', 'NOTINOTE', 1,0,sysdate,'dbpatch',sysdate,'dbpatch');
+', 'NOTITASK', 1,0,sysdate,'dbpatch',sysdate,'dbpatch');
 
 
 INSERT INTO TB_EMAIL_TEMPLATE 
