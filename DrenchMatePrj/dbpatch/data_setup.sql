@@ -27,8 +27,48 @@ INSERT INTO TB_RULE_CODE_VALUE  VALUES (SEQ_RULE_CODE_VALUE_ID.nextval,(SELECT A
 
 
 INSERT INTO TB_EMAIL_TEMPLATE 
-VALUES (SEQ_EMAIL_TEMPLATE_ID.nextval,'<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Page Title</title>\n<meta charset=\"UTF-8\">\n <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<style>\n* {\nbox-sizing: border-box;\n }\n\n/* Style the body */\nbody {\nfont-family: Arial, Helvetica, sans-serif;\nmargin: 0;\n \n\n/* Header/logo Title */\n .header {\n padding: 80px;\ntext-align: center;\n background: #1abc9c;\ncolor: white;\n}\n\n/* Increase the font size of the heading */\n.header h1 {\n font-size: 40px;\n }\n\n/* Style the top navigation bar */\n        .navbar {\n            overflow: hidden;\n background-color: #333;\n}\n\n/* Style the navigation bar links */\n.navbar a {\nfloat: left;\ndisplay: block;\n            color: white;\n text-align: center;\n            padding: 14px 20px;\ntext-decoration: none;\n}\n\n /* Right-aligned link */\n.navbar a.right {\n  float: right;\n        }\n\n /* Change color on hover */\n.navbar a:hover {\n background-color: #ddd;\n color: black;\n}\n\n/* Column container */\n        .row {\n display: -ms-flexbox; /* IE10 */\n            display: flex;\n -ms-flex-wrap: wrap; /* IE10 */\nflex-wrap: wrap;\n  }\n\n  /* Create two unequal columns that sits next to each other */\n        /* Sidebar/left column */\n.side {\n-ms-flex: 30%; /* IE10 */\nflex: 30%;\n background-color: #f1f1f1;\n padding: 20px;\n        }\n\n /* Main column */\n        .main {\n-ms-flex: 70%; /* IE10 */\n flex: 70%;\n  background-color: white;\npadding: 20px;\n }\n\n  /* Fake image, just for this example */\n        .fakeimg {\n background-color: #aaa;\n            width: 100%;\npadding: 20px;\n }\n\n        /* Footer */\n.footer {\n padding: 20px;\ntext-align: center;\n            background: #ddd;\n        }\n\n        /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */\n        @media screen and (max-width: 700px) {\n .row {\n flex-direction: column;\n }\n }\n\n /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */\n        @media screen and (max-width: 400px) {\n            .navbar a {\n float: none;\n                width: 100%;\n}\n        }\n    </style>\n</head>\n<body>\n\n<div class=\"header\">\n    <h1>My Website</h1>\n    <p>A website created by me.</p>\n</div>\n\n<div class=\"navbar\">\n    <a href=\"#\">Link</a>\n    <a href=\"#\">Link</a>\n    <a href=\"#\">Link</a>\n    <a href=\"#\" class=\"right\">Link</a>\n</div>\n\n<div class=\"row\">\n    <div class=\"side\">\n        <h2>About Me</h2>\n        <h5>Photo of me:</h5>\n <div class=\"fakeimg\" style=\"height:200px;\">Image</div>\n<p>Some text about me in culpa qui officia deserunt mollit anim..</p>\n<h3>More Text</h3>\n<p>Lorem ipsum dolor sit ame.</p>\n        <div class=\"fakeimg\" style=\"height:60px;\">Image</div><br>\n        <div class=\"fakeimg\" style=\"height:60px;\">Image</div><br>\n<div class=\"fakeimg\" style=\"height:60px;\">Image</div>\n</div>\n    <div class=\"main\">\n <h2>TITLE HEADING</h2>\n <h5>Title description, Dec 7, 2017</h5>\n        <div class=\"fakeimg\" style=\"height:200px;\">Image</div>\n        <p>Some text..</p>\n        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>\n   <br>\n        <h2>TITLE HEADING</h2>\n        <h5>Title description, Sep 2, 2017</h5>\n        <div class=\"fakeimg\" style=\"height:200px;\">Image</div>\n        <p>Some text..</p>\n        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>\n</div>\n</div>\n\n<div class=\"footer\">\n<h2>Footer</h2>\n</div>\n\n</body>\n</html>', 'Template name', 1,0,sysdate,'dbpatch',sysdate,'dbpatch');
+VALUES (SEQ_EMAIL_TEMPLATE_ID.nextval,'Dear Farmer,
 
+Welcome to [PT05]! We are thrilled to have you join our community of farmers dedicated to optimizing farm management and efficiency.
+
+To complete your registration and unlock the full potential of our system, please follow these simple steps:
+1. *Complete Your Profile:*
+   Provide essential details about your farm, such as location, type of livestock, crops grown, and any other relevant information.
+2. *Explore the Features:*
+   Take some time to navigate through the app and discover the various features designed to streamline farm management tasks, optimize workflows, and enhance productivity.
+3. *Get Started:*
+   Once your profile is complete, you are all set to start using Farm App Name to simplify your farming operations and maximize your yields.
+If you encounter any issues during the registration process or have any questions about using the app, please do not hesitate to reach out to our customer support team at [Support Email Address].
+Thank you for choosing [Farm App Name]. We look forward to being part of your farming journey and helping you achieve success.
+
+Best regards,
+TeamPT05
+', 'REGISTRATION', 1,0,sysdate,'dbpatch',sysdate,'dbpatch');
+
+INSERT INTO TB_EMAIL_TEMPLATE 
+VALUES (SEQ_EMAIL_TEMPLATE_ID.nextval,'Dear $name$,
+
+This is a friendly reminder that you have $noofdays$ days left to administer medication to the sheep in Zone [$zone$]. Ensuring the timely administration of medication is crucial for maintaining the health and well-being of your flock.
+
+Please make sure to allocate the necessary resources and schedule the medication administration accordingly to avoid any delays.
+
+If you have any questions or need assistance, feel free to reach out.
+
+Best regards,
+TeamPT05
+', 'NOTINOTE', 1,0,sysdate,'dbpatch',sysdate,'dbpatch');
+
+
+INSERT INTO TB_EMAIL_TEMPLATE 
+VALUES (SEQ_EMAIL_TEMPLATE_ID.nextval,'Dear $name$,
+
+Notification: Reminder to Feed Medication
+
+Just a gentle reminder to administer medication to your livestock.
+
+Best regards,
+TeamPT05
+', 'NOTINOTE', 1,0,sysdate,'dbpatch',sysdate,'dbpatch');
 
 
 INSERT INTO TB_FARM_HOUSE  VALUES (SEQ_FARM_HOUSE_ID.nextval,1026,'My FarmHouse Zone 1','Melbone',1000,'All my sheep healthy and happy',0,sysdate,'dbpatch',sysdate,'dbpatch'),

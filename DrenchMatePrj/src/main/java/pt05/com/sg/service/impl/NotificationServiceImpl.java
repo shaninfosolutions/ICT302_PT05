@@ -24,11 +24,13 @@ import pt05.com.sg.data.entity.User;
 import pt05.com.sg.data.entity.FarmHouse;
 import pt05.com.sg.data.entity.Notification;
 import pt05.com.sg.data.jdbc.impl.NotificationJdbcImpl;
+import pt05.com.sg.data.repository.EmailTemplateRepository;
 import pt05.com.sg.data.repository.FarmHouseRepository;
 import pt05.com.sg.data.repository.NoteRepository;
 import pt05.com.sg.data.repository.NotificationRepository;
 import pt05.com.sg.data.repository.UserRepository;
 import pt05.com.sg.service.NotificationService;
+import pt05.com.sg.util.NotificationHelper;
 
 @Service
 public class NotificationServiceImpl implements NotificationService{
@@ -62,6 +64,17 @@ public class NotificationServiceImpl implements NotificationService{
 	private final String NOTI_TYPE_TASK="USER_TASK";
 	
 	
+	private final static String USER_TASK_EMAIL_TEMPLATE="NOTITASK";
+	
+	private final static String USER_TASK_EMAIL_SUBJECT="Medication Reminder: $noofdays$ Days Left for Sheep in Zone [$zone$]";
+	
+	
+
+	private final static String USER_NOTE_EMAIL_TEMPLATE="NOTINOTE";
+	
+	private final static String USER_NOTE_EMAIL_SUBJECT="Notification: Reminder to Feed Medication";
+	
+	
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	
 	@Autowired
@@ -74,7 +87,8 @@ public class NotificationServiceImpl implements NotificationService{
 	private FarmHouseRepository farmHouseRepository;
 	
 
-	
+	@Autowired
+	private  EmailTemplateRepository emailTemplateRepository;
 	
 	
 	@Autowired
@@ -186,21 +200,32 @@ public Map<String,String> addOrUpdateNotiNote(NotificationNoteSummaryDto notiTas
         			
         			
         		log.info("Trigger Task Notification Begin:"+dto.getUserId()+":FarmHouseid:"+dto.getFarmHouseId());
+        		
+        		String emailTemplate=this.emailTemplateRepository
+						.findByTemplateName(USER_TASK_EMAIL_TEMPLATE)
+						.get()
+						.getEmailTemplate();
         	
         		
-        			String message="Dear "+dto.getName()+"\n"
-        					+ "This is alert notification to inform you have upcoming Task Schedule.\n"
-        					+ "Thanks. "
-        					+ "(System auto generate, no reply required)";
-        			String subject="Drench Mate - Notification as of "+new Date();
+        			//String message="Dear "+dto.getName()+"\n"
+        					//+ "This is alert notification to inform you have upcoming Task Schedule.\n"
+        					//+ "Thanks. "
+        					//+ "(System auto generate, no reply required)";
+        			
+        			Optional<FarmHouse> optionalFarmHouse = this.farmHouseRepository.findByFarmHouseId(dto.getFarmHouseId());
+        			User u=this.userRepository.findByUserId(dto.getUserId()).get();
+        			
+        			Map<String,String> replacements=new HashMap<>();
+					replacements.put("name", dto.getName());
+					replacements.put("noofdays",u.getNotificationSetting().getNoOfDays().toString());
+					replacements.put("zone", optionalFarmHouse.get().getFarmHouseName());
+        			
+        			String subject=NotificationHelper.replacePlaceholders(replacements, USER_TASK_EMAIL_SUBJECT);
+        			String message=NotificationHelper.replacePlaceholders(replacements,emailTemplate);
         			
         			/*Trigger point to Send Email Notification*/
         			this.emailServiceImpl.sendEmail(dto.getEmail(), subject, message);
         			
-        			User u=this.userRepository.findByUserId(dto.getUserId()).get();
-        			
-        			Optional<FarmHouse> optionalFarmHouse = this.farmHouseRepository.findByFarmHouseId(dto.getFarmHouseId());
-
         			Notification notification=new Notification();
         			notification.setUser(u);
         			notification.setMessage(message);
@@ -258,14 +283,39 @@ public Map<String,String> addOrUpdateNotiNote(NotificationNoteSummaryDto notiTas
         		log.info("Trigger Notification Begin:"+dto.getUserId()+":FarmHouseid:"+dto.getFarmHouseId()+
         				":Best Score:"+bestScore+":User Score:"+notiScoreCard);
         		if(notiScoreCard!=null ) {
-        			String message="";
+        			//String message="";
         			
         			if(notiScoreCard< bestScore) {
-        				message="Dear "+dto.getName()+"\n"
-            					+ "This is alert notification to inform you that your farmhouse is in danger.\n"
-            					+ "Please look for the consultant to drench you sheep.\n"
-            					+ "Thanks. "
-            					+ "(System auto generate, no reply required)";
+        				//message="Dear "+dto.getName()+"\n"
+            					//+ "This is alert notification to inform you that your farmhouse is in danger.\n"
+            					//+ "Please look for the consultant to drench you sheep.\n"
+            					//+ "Thanks. "
+            					//+ "(System auto generate, no reply required)";
+        				
+        				
+        				String emailTemplate=this.emailTemplateRepository
+        						.findByTemplateName(USER_NOTE_EMAIL_TEMPLATE)
+        						.get()
+        						.getEmailTemplate();
+                	
+                		
+                			//String message="Dear "+dto.getName()+"\n"
+                					//+ "This is alert notification to inform you have upcoming Task Schedule.\n"
+                					//+ "Thanks. "
+                					//+ "(System auto generate, no reply required)";
+                			
+                			Optional<FarmHouse> optionalFarmHouse = this.farmHouseRepository.findByFarmHouseId(dto.getFarmHouseId());
+                			User u=this.userRepository.findByUserId(dto.getUserId()).get();
+                			
+                			Map<String,String> replacements=new HashMap<>();
+        					replacements.put("name", dto.getName());
+        					replacements.put("noofdays",u.getNotificationSetting().getNoOfDays().toString());
+        					replacements.put("zone", optionalFarmHouse.get().getFarmHouseName());
+                			
+                			String subject=NotificationHelper.replacePlaceholders(replacements, USER_NOTE_EMAIL_SUBJECT);
+                			String message=NotificationHelper.replacePlaceholders(replacements,emailTemplate);
+        				
+        				
         			/*else {
         				message="Dear "+dto.getName()+"\n"
             					+ "This is alert notification to inform you that your farmhouse is normal.\n"
@@ -273,14 +323,12 @@ public Map<String,String> addOrUpdateNotiNote(NotificationNoteSummaryDto notiTas
             					+ "(System auto generate, no reply required)";
         			}*/
         			 
-        			String subject="Drench Mate - Notification as of "+new Date();
+        			//String subject="Drench Mate - Notification as of "+new Date();
         			
         			/*Trigger point to Send Email Notification*/
         			this.emailServiceImpl.sendEmail(dto.getEmail(), subject, message);
         			
-        			User u=this.userRepository.findByUserId(dto.getUserId()).get();
         			
-        			Optional<FarmHouse> optionalFarmHouse = this.farmHouseRepository.findByFarmHouseId(dto.getFarmHouseId());
 
         			Notification notification=new Notification();
         			notification.setUser(u);

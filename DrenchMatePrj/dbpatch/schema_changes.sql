@@ -4,10 +4,20 @@ sqlplus / as sysdba
 show con_name
 SQL> alter session set container=XEPDB1;
 SQL> drop user drenchmate cascade;
-SQL> create user drenchmate identified by drenchmate default tablespace test_data temporary tablespace test_temp quota unlimited on test_data quota unlimited on test_index;
+
+ALTER DATABASE DATAFILE 'C:\Drenchmate\data\cm_data02.dbf' OFFLINE DROP;
+
+SQL> CREATE TABLESPACE dm_data DATAFILE 'C:\Drenchmate\data\dm_data01.dbf' SIZE 128 M AUTOEXTEND ON NEXT 128 M MAXSIZE 256 M,'C:\Drenchmate\data\dm_data02.dbf' SIZE 128 M NOLOGGING ONLINE PERMANENT EXTENT MANAGEMENT LOCAL UNIFORM SIZE 1 M;
+
+SQL> CREATE TABLESPACE dm_index DATAFILE 'C:\Drenchmate\data\dm_index01.dbf' SIZE 128 M AUTOEXTEND ON NEXT 128 M MAXSIZE 256 M, 'C:\Drenchmate\data\dm_index02.dbf' SIZE 128 M NOLOGGING ONLINE PERMANENT EXTENT MANAGEMENT LOCAL UNIFORM SIZE 1 M;
+
+SQL> CREATE temporary TABLESPACE DM_TEMP TEMPFILE 'C:\Drenchmate\data\dm_temp1.dbf' SIZE 128 M AUTOEXTEND ON NEXT 128 M MAXSIZE 256 M EXTENT MANAGEMENT LOCAL;
+
+SQL> alter session set "_ORACLE_SCRIPT"=true;
+SQL> create user drenchmate identified by drenchmate default tablespace dm_data temporary tablespace dm_temp quota unlimited on dm_data quota unlimited on dm_index;
 SQL> grant dba TO drenchmate;
-SQL> create or replace directory ora_dir as 'C:\myschool\ICT302\Project\Data';
-SQL> grant read, write on directory ora_dir to drenchmate;
+SQL> create or replace directory ora_dir as 'C:\Drenchmate\data';
+SQL> 
 
 ---
 DROP SEQUENCE SEQ_RULE_CODE_ID; 
@@ -22,6 +32,7 @@ DROP SEQUENCE SEQ_TASK_ID;
 DROP SEQUENCE SEQ_NOTE_ID;
 DROP SEQUENCE SEQ_USER_NOTE_RULE_ID;
 DROP SEQUENCE SEQ_NOTIFICATION_ID;
+DROP SEQUENCE SEQ_EMAIL_TEMPLATE_ID;
 
 DROP TABLE 	TB_RULE_CODE;
 DROP TABLE  TB_NOTIFICATION_SETTING;
@@ -36,6 +47,7 @@ DROP TABLE  TB_USER_PROFILE;
 DROP TABLE  TB_USER;
 DROP TABLE 	TB_RULE_CODE_VALUE;
 DROP TABLE 	TB_RULE_CODE;
+DROP TABLE TB_EMAIL_TEMPLATE;
 
 /*
 
@@ -70,7 +82,7 @@ CREATE TABLE TB_RULE_CODE_VALUE (
 	RuleCodeValueId			Number(19)			DEFAULT SEQ_RULE_CODE_VALUE_ID.nextval,
 	RuleCodeId				Number(19)			NOT NULL,
 	Code					Varchar2(255) 		NOT NULL,
-	Code_Desc				Varchar2(255) 		NOT NULL,
+	CodeDesc				Varchar2(255) 		NOT NULL,
 	CodeValue				Number(19,2)		DEFAULT 0,
 	Remarks					Varchar2(2000) 			 NULL,
 	VerNo					Number(19)		NOT NULL,
@@ -207,6 +219,7 @@ CREATE TABLE TB_TASK (
 	StartDate 			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP,
 	EndDate				TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP,
 	Remarks 			Varchar2(2000) 	NULL,
+	Status				Varchar2(255) 	NULL,	
 	VerNo				Number(19)		NOT NULL,
 	CreatedDate			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP,
 	CreatedBy 			Varchar2(255) 	NULL,
@@ -225,13 +238,14 @@ CREATE TABLE TB_NOTE (
 	UserId 				Number(19)		NOT NULL,
 	FarmHouseId 		Number(19)		NOT NULL,
 	NoteTitle			Varchar2(255) 	NOT NULL,
-	NoteType			Number(19)		NOT NULL,
+	NoteType			Varchar2(255)	NOT NULL,
 	Status				Varchar2(255) 	NULL,			
 	Remarks 			Varchar2(2000) 	NULL,
 	VerNo				Number(19)		NOT NULL,
 	CreatedDate			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP,
 	CreatedBy 			Varchar2(255) 	NULL,
 	LastUpdatedDate 	TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP,
+	LASTEDUPDATEDBY		Varchar2(255) 	NULL
 	CONSTRAINT 	NoteId	PRIMARY KEY (NoteId),
 	CONSTRAINT 	FK_Note_UserId FOREIGN KEY (UserId) REFERENCES TB_USER(UserId) ON DELETE CASCADE,
 	CONSTRAINT 	FK_Note_FarmHouseId FOREIGN KEY (FarmHouseId) REFERENCES TB_FARM_HOUSE(FarmHouseId) ON DELETE CASCADE
@@ -269,6 +283,7 @@ CREATE TABLE TB_NOTIFICATION(
 	Status				Varchar2(255) 		 	NULL, -- Open -> Active /Closed 
 	Remarks 			Varchar2(2000) 		 	NULL,
 	DateOfNotification  TIMESTAMP			DEFAULT CURRENT_TIMESTAMP,
+	FARMHOUSEID			Number(19)			 NULL,
 	VerNo				Number(19)			NOT NULL,
 	CreatedDate			TIMESTAMP 			DEFAULT CURRENT_TIMESTAMP,
 	CreatedBy 			Varchar2(255) 		NULL,
@@ -278,6 +293,23 @@ CREATE TABLE TB_NOTIFICATION(
 	CONSTRAINT 	FK_Notification_UserId FOREIGN KEY (UserId) REFERENCES TB_User(UserId) ON DELETE CASCADE
 	
 )
+/
+
+
+CREATE SEQUENCE SEQ_EMAIL_TEMPLATE_ID START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE TABLE TB_EMAIL_TEMPLATE(
+		EmailTemplateId 		Number(19)			DEFAULT SEQ_EMAIL_TEMPLATE_ID.nextval,
+		EmailTemplate			CLOB		 		NULL,
+		TemplateName			Varchar2(255) 		 	NULL,
+		TemplateNumber			NUMBER(19)				NULL,
+		VerNo				Number(19)			NOT NULL,
+		CreatedDate			TIMESTAMP 			DEFAULT CURRENT_TIMESTAMP,
+		CreatedBy 			Varchar2(255) 		NULL,
+		LastUpdatedDate 	TIMESTAMP 			DEFAULT CURRENT_TIMESTAMP,
+		LastedUpdatedBy 	Varchar2(255) 		NULL,
+		CONSTRAINT 	PK_EmailTemplateId	PRIMARY KEY (EmailTemplateId)
+)
+
 /
 
 

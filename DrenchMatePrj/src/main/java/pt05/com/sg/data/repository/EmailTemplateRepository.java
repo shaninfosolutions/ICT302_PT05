@@ -15,4 +15,6 @@ public interface EmailTemplateRepository extends CrudRepository<EmailTemplate, L
 	Optional<EmailTemplate> findByTemplateNumber(Long templateNumber);
 	
 	Optional<EmailTemplate> findByEmailTemplateId(Long emailTemplateId);
+	
+	Optional<EmailTemplate> findByTemplateName(String templateName);
 }

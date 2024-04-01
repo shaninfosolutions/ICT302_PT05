@@ -45,7 +45,7 @@ public class DBConfig {
 		
 		DriverManagerDataSource dataSource=new DriverManagerDataSource();
 		dataSource.setDriverClassName(driverClassName);
-		dataSource.setUrl(EncryptDecrypt.decrypt(dbUrl));
+		dataSource.setUrl(dbUrl);
 		dataSource.setUsername(EncryptDecrypt.decrypt(username));
 		dataSource.setPassword(EncryptDecrypt.decrypt(password));
 		

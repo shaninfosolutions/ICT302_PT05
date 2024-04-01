@@ -19,9 +19,11 @@ import pt05.com.sg.data.dto.UserDto;
 import pt05.com.sg.data.entity.User;
 import pt05.com.sg.data.entity.NotificationSetting;
 import pt05.com.sg.data.entity.UserProfile;
+import pt05.com.sg.data.repository.EmailTemplateRepository;
 import pt05.com.sg.data.repository.NotificationSettingRepository;
 import pt05.com.sg.data.repository.UserRepository;
 import pt05.com.sg.service.UserService;
+import pt05.com.sg.util.NotificationHelper;
 import pt05.com.sg.util.UserHelper;
 import pt05.com.sg.validation.CustomerValidation;
 
@@ -38,6 +40,10 @@ public class UserServiceImpl implements UserService{
 	
 	private final static char RECEIVE_NOTIFICDATION_YES='Y';
 	
+	private final static String REGISTER_EMAIL_TEMPLATE="REGISTRATION";
+	
+	private final static String REGISTER_EMAIL_SUBJECT="Welcome to PT05  - Complete Your Registration";
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -49,6 +55,10 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private EmailServiceImpl emailServiceImpl ;
+	
+	
+	@Autowired
+	private  EmailTemplateRepository emailTemplateRepository;
 	
 	
 	
@@ -153,9 +163,25 @@ public class UserServiceImpl implements UserService{
 						
 						this.notificationSettingRepository.save(notisetting);
 						
-						message="Dear "+user.getUserName()+"\nThanks for registering.";
-					
-	        			String subject="Drench Mate - Registration Notification as of "+new Date();
+						//message="Dear "+user.getUserName();
+						
+						
+						
+						
+						String emailTemplate=this.emailTemplateRepository
+																	.findByTemplateName(REGISTER_EMAIL_TEMPLATE)
+																	.get()
+																	.getEmailTemplate();
+						
+						Map<String,String> replacements=new HashMap<>();
+						replacements.put("name", user.getUserName());
+						
+						message=NotificationHelper.replacePlaceholders(replacements, emailTemplate);
+						
+						
+	        			String subject=REGISTER_EMAIL_SUBJECT;
+	        			
+	        			
 	        			//To send the email notification
 	        			this.emailServiceImpl.sendEmail(user.getEmail(), subject, message);
 						
