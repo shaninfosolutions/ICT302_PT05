@@ -49,18 +49,6 @@ DROP TABLE 	TB_RULE_CODE_VALUE;
 DROP TABLE 	TB_RULE_CODE;
 DROP TABLE TB_EMAIL_TEMPLATE;
 
-/*
-
-CREATE TABLE TB_USER_GROUP (  
-)
-
-CREATE TABLE TB_USER_ACCOUNT (  
-)
-
-CREATE TABLE TB_USER_ROLE (  
-)*/
-
-
 CREATE SEQUENCE SEQ_RULE_CODE_ID START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE;
 CREATE TABLE TB_RULE_CODE (
 	RuleCodeId			Number(19)		DEFAULT SEQ_RULE_CODE_ID.nextval,
@@ -278,7 +266,7 @@ CREATE TABLE TB_NOTIFICATION(
 	UserId 				Number(19)			NOT NULL,
 	NoteId				Number(19)		 	NULL,
 	TaskId				Number(19)			 NULL,
-	Message				Varchar2(255) 		 	NULL,
+	Message				Varchar2(2000) 		 	NULL,
 	NotiType			Varchar2(255) 		 	NULL,
 	Status				Varchar2(255) 		 	NULL, -- Open -> Active /Closed 
 	Remarks 			Varchar2(2000) 		 	NULL,
