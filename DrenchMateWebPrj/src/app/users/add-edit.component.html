@@ -94,7 +94,7 @@
                         <label class="form-label">Remarks</label>
                         <input type="text" formControlName="remarks" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.remarks.errors }" />
                         <div *ngIf="submitted && f.remarks.errors" class="invalid-feedback">
-                            <div *ngIf="f.remarks.errors.required">Email to Notify is required</div>
+                            <div *ngIf="f.remarks.errors.required">Remarks is required</div>
                         </div>
                     </div>
                     

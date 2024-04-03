@@ -42,7 +42,7 @@
 
                 <div class="row">
                     <div class="mb-3 col">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label">Start Date (DD/MM/YYYY)</label>
                         <input type="text" formControlName="startDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" />
                         <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
                             <div *ngIf="f.startDate.errors.required">startDate is required</div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="row">
                     <div class="mb-3 col">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label">End Date (DD/MM/YYYY)</label>
                         <input type="text" formControlName="endDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" />
                         <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
                             <div *ngIf="f.endDate.errors.required">endDate is required</div>
