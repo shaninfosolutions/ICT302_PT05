@@ -52,36 +52,6 @@ public class DrenchMatePrjApplication implements CommandLineRunner {
     public void run(String...args) throws Exception {
 		List<UserDto> list=userServiceImpl.getUserList();
 		log.info("DrenchMatePrjApplication::: BEGIN");
-		/*if(list.size()>0) {
-			list.forEach(cust->
-						System.out.println(
-								cust.getUserId()+":"+
-								cust.getName()+":"+
-								cust.getEmail()+":"+
-								cust.getUserProfile().getDisplayName()
-								));
-		}*/
-		//this.userRepository.deleteAll();
-		
-		/*User u=new User("Mary","mary.lwin@pt05.com.sg",passwordEncoder.encode("password"),"System",new Date(),"System",new Date(),"ROLE_ADMIN");
-		
-		UserProfile up=new UserProfile();
-		
-		up.setDisplayName("Mary Lwin");
-		up.setPhoneNo(Long.valueOf(909090));
-		up.setFacebookLink("http://mary.facebook");
-		up.setRemarks("Testing");
-		u.setUserProfile(up);
-		up.setUser(u);
-		
-		 this.userRepository.save(u);
-		//this.userRepository.save(new User("John","john.lwin@pt05.com.sg",passwordEncoder.encode("password"),"System",new Date(),"System",new Date()));
-		//this.userRepository.save(new User("Janson","janson.lwin@pt05.com.sg",passwordEncoder.encode("password"),"System",new Date(),"System",new Date()));
-        
-		//to update 
-		//Optional<User> user=this.userRepository.findByEmail("tina.lwin@pt05.com.sg");
-		//user.get().setName("Tina Update 3");
-		//this.userRepository.save(user.get());*/
     }
 	
 	public static void main(String[] args)  {
