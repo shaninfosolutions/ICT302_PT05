@@ -49,10 +49,7 @@ public class LicenseValidationService {
 	        boolean isLicenceValid=false;
 	        
 	        isExpired=LicenseKeyManager.isDateExpired(expirationDate);
-	        
-	        //generateLicenseKey(userEmail, expirationDate,org,country,issueTo,issueFrom);
-	        //validateLicenseKey(licenseKey, userEmail, expirationDate,org,country,issueTo,issueFrom);
-	        
+	        	        
 	        isLicenceValid=LicenseKeyManager.
 	        		validateLicenseKey(licenseKey, 
 			        				userEmail, 
@@ -60,8 +57,8 @@ public class LicenseValidationService {
 			        				org, country, 
 			        				issuedTo, issuedFrom);
 	        
-	        if(isExpired) log.info("The Licence is Expired, Please conduct the Licence Issuer to issue a new Licence:"+isExpired);
-	        else log.info("Is not expired:"+isExpired);
+	        if(isExpired) log.info("The Licence is Expired, Please conduct the Licence Issuer to issue a new Licence");
+	        else log.info("The Licence is not Expired");
 	        if(isLicenceValid) log.info("Valid Licence:"+isLicenceValid);
 	        else log.info("Invalid Licence,Please conduct the Licence Issuer to issue a new Licence:"+isLicenceValid);
 	        
