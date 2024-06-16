@@ -1,3 +1,11 @@
+Introduction
+====================
+This is a mini project having the Three Tier Architecure Design such as 
+1. Web Tier (Angular)
+2. App Tier (Java Spring Boot)
+3. Data Tier (Oracle DB)
+
+
 Web
 Install Note Js
 ===================
